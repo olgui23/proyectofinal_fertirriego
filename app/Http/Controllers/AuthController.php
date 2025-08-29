@@ -56,7 +56,7 @@ class AuthController extends Controller
         $user = \App\Models\User::where($field, $credentials['login'])->first();
         // Validar credenciales
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            RateLimiter::hit($this->throttleKey($request));
+            RateLimiter::hit($this->throttleKey($request), 120);
             
             throw ValidationException::withMessages([
                 'login' => 'Las credenciales no coinciden con nuestros registros.',
