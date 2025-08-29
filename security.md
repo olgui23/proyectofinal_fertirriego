@@ -102,8 +102,37 @@ Configuraciones de Seguridad
 | ![Pantalla de inicio de sesión](./public/images/evidencias/6.png) | ![Pantalla de registro](./public/images/evidencias/7.png) |
 
 ## 5. Consideraciones Finales
-Revisión de seguridad en todas las capas: Cliente y servidor
+### Revisión de seguridad en todas las capas: Cliente y servidor
+Si bien Laravel sigue el patrón MVC (Modelo-Vista-Controlador), su seguridad va mucho más allá de esta estructura arquitectónica. El framework incorpora múltiples capas de protección integradas:
 
-Lenguaje: Técnico y claro
+#### Mecanismos de Seguridad Esenciales en Laravel:
+1. Protección contra CSRF (Cross-Site Request Forgery)
 
-Objetivo: Prevenir accesos malintencionados y proteger información confidencial
+    Tokens CSRF automáticos en formularios
+    Verificación mediante middleware incluido en el grupo 'web'
+
+2. Prevención de Inyección SQL
+
+    Uso de Eloquent ORM y Query Builder con parámetros escapados
+    Protección automática contra inyecciones SQL
+
+3. Validación de Datos
+
+    Sistema de validación robusto con reglas predefinidas
+    Validación automática de tipos de datos y formatos
+
+4. Autenticación Segura
+
+    Hash de contraseñas con bcrypt por defecto
+    Sistema de autenticación completo con scaffolding
+
+5. Middleware de Seguridad
+
+    Autenticación: auth, auth.basic
+    Autorización: políticas y gates
+    Protección: throttle para limitar peticiones
+
+6. Protección XSS (Cross-Site Scripting)
+
+    Escapado automático de variables en Blade ({{ }})
+    Purificación de datos con clases específicas
