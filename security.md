@@ -65,7 +65,43 @@ Configuraciones de Seguridad
 'secure' => true,             // Solo HTTPS en producción
 'http_only' => true,          // Prevenir acceso via JavaScript
 ```
-## 4. Consideraciones Finales
+## 4. Evidencias del trabajo realizado:
+```php
+......
+[2025-08-28 16:00:53] Redireccionamiento según el rol del usuario:administrador
+[2025-08-28 16:02:24] Inicio de sesión exitoso. Usuario:azamorano, usuario: agricultor
+[2025-08-28 16:02:24] Redireccionamiento según el rol del usuario:agricultor
+[2025-08-28 19:14:12] Inicio de sesión exitoso. Usuario:cvargas, usuario: comprador
+[2025-08-28 19:14:12] Redireccionamiento según el rol del usuario:comprador
+[2025-08-28 19:42:11] Inicio de sesión exitoso. Usuario:rvargas, usuario: comprador
+[2025-08-28 19:42:11] Redireccionamiento según el rol del usuario:comprador
+[2025-08-28 19:49:04] Inicio de sesión exitoso. Usuario:rvargas, usuario: comprador
+[2025-08-28 19:49:04] Redireccionamiento según el rol del usuario:comprador
+[2025-08-28 21:47:25] Inicio de sesión exitoso. Usuario:pvargas, usuario: comprador
+[2025-08-28 21:47:25] Redireccionamiento según el rol del usuario:comprador
+[2025-08-29 03:24:32] Inicio de sesión exitoso. Usuario:olgamaya, usuario: administrador
+[2025-08-29 03:24:32] Redireccionamiento según el rol del usuario:administrador
+[2025-08-29 03:25:54] Inicio de sesión exitoso. Usuario:azamorano, usuario: agricultor
+[2025-08-29 03:25:54] Redireccionamiento según el rol del usuario:agricultor
+[2025-08-29 03:27:29] Inicio de sesión exitoso. Usuario:rvargas, usuario: comprador
+[2025-08-29 03:27:29] Redireccionamiento según el rol del usuario:comprador
+[2025-08-29 03:32:38] Inicio de sesión exitoso. Usuario:aramirez, usuario: comprador
+[2025-08-29 03:32:38] Redireccionamiento según el rol del usuario:comprador
+......
+```
+| Validación Front-End: Registro             | Registro de Usuarios              | Bienvenida              |
+|--------------------------------|--------------------------------|---------------------------------|
+| ![Pantalla de inicio de sesión](./public/images/evidencias/2.png) | ![Pantalla de registro](./public/images/evidencias/3.png) | ![Pantalla de bienvinida](./public/images/evidencias/1.png) |
+
+| Validación Back-End: Registro             |              |               |
+|--------------------------------|--------------------------------|---------------------------------|
+| ![Pantalla de inicio de sesión](./public/images/evidencias/5.png) | ![Pantalla de registro](./public/images/evidencias/4.png) |
+
+| Validación Back-End: Inicio de Sesión             |              |               |
+|--------------------------------|--------------------------------|---------------------------------|
+| ![Pantalla de inicio de sesión](./public/images/evidencias/6.png) | ![Pantalla de registro](./public/images/evidencias/7.png) |
+
+## 5. Consideraciones Finales
 Revisión de seguridad en todas las capas: Cliente y servidor
 
 Lenguaje: Técnico y claro
