@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Sistema de Fertirrigación para cultivo de lechuga en Tiquipaya" />
+    <meta name="author" content="" />
+    <title>@yield('title', 'Fertirriego')</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
+
+    <!-- Google Fonts -->
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap & Theme CSS -->
+    <link href="{{ asset('startbootstrap-agency-gh-pages/css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
+</head>
+<body id="page-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold text-uppercase fs-4" href="{{ route('home') }}">
+                <span style="color: #64A500;">Fertirrigación</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                Menú <i class="fas fa-bars ms-1"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    <!-- <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Inicio</a></li> -->
+                    <!-- Menú según rol -->
+                     @auth
+                        @if(Auth::user()->rol === 'administrador')
+                        <!-- Menú para Administrador -->
+                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Agricultores</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Cultivos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Equipos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Reportes</a></li>
+                        @elseif(Auth::user()->rol === 'agricultor')
+                        <!-- Menú para Agricultor -->
+                            <li class="nav-item"><a class="nav-link" href="{{ route('farm.dashboard') }}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('control.index') }}">Control del Cultivo</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="cultivoDropdown" role="button" data-bs-toggle="dropdown">
+                                    Mi Cultivo
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('miCultivo.reportes') }}">Reportes</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('miCultivo.calendario') }}">Calendario</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="guiaDropdown" role="button" data-bs-toggle="dropdown">
+                                    Tu Guía
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('guia.variedades') }}">Tipos de lechuga</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('guia.plagas') }}">Plagas & Enfermedades</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('guia.salud') }}">Salud vegetal</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('guia.practicas') }}">Buenas prácticas</a></li>
+                                </ul>
+                            </li>
+                        @elseif(Auth::user()->rol === 'comprador')
+                        <!-- Menú para Comprador -->
+                            <li class="nav-item"><a class="nav-link" href="{{ route('buyer.dashboard') }}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('asistente') }}">Asistente</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+                        @endif
+                    @endauth
+
+                    @auth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <small class="text-muted small"><i class="fas fa-user-circle me-1"></i> {{ Auth::user()->nombre }} ({{ Auth::user()->rol }})</small>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-1"></i> Mi Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endauth
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Carrusel principal -->
+    <header>
+        @yield('cabecera')
+    </header>
+
+    <!-- Contenido dinámico -->
+    <main>
+        @yield('contenido')
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row align-items-center text-center">
+                <div class="col-lg-4 text-lg-start">Copyright &copy; Fertirriego {{ date('Y') }}</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-outline-light btn-social mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a class="link-light text-decoration-none me-3" href="#">Política de Privacidad</a>
+                    <a class="link-light text-decoration-none" href="#">Términos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('startbootstrap-agency-gh-pages/js/scripts.js') }}"></script>
+</body>
+</html>
