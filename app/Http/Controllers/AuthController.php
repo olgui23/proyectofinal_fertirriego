@@ -190,21 +190,21 @@ class AuthController extends Controller
     }
 
     public function showVerificationNotice()
-    {
-        return view('auth.verify');
+{
+    return view('auth.verify');
+}
+
+public function resendVerification(Request $request)
+{
+    if ($request->user()->hasVerifiedEmail()) {
+        return $this->redirectByRole($request->user());
     }
 
-    // Procesar reenvío de verificación
-    public function resendVerification(Request $request)
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return $this->redirectByRole($request->user());
-        }
+    $request->user()->sendEmailVerificationNotification();
 
-        $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', '¡Enlace de verificación reenviado!');
+}
 
-        return back()->with('status', '¡Enlace de verificación reenviado!');
-    }    
 
     // Cerrar sesión
     public function logout(Request $request)

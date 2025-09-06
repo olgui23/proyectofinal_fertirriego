@@ -16,6 +16,25 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\DashboardController;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+// haber sida 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+// Verificación de email
+Route::get('/email/verify', [AuthController::class, 'showVerificationNotice'])
+    ->middleware('auth')
+    ->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // Marca el email como verificado automáticamente
+    return redirect()->route('dashboard')
+        ->with('success', '¡Email verificado correctamente! Ya puedes iniciar sesión.');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Reenvío de email
+Route::post('/email/verification-notification', [AuthController::class, 'resendVerification'])
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.resend');
+
 
 // Rutas públicas (sin autenticación)
 Route::middleware('guest')->group(function () {
