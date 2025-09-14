@@ -18,6 +18,8 @@
     <!-- Bootstrap & Theme CSS -->
     <link href="{{ asset('startbootstrap-agency-gh-pages/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
+    @stack('scripts')
+
 </head>
 <body id="page-top">
     <!-- Navigation -->

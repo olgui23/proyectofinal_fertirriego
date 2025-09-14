@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Services\WeatherService;
-
+use App\Http\Controllers\Api\ProductoController;    
+Route::get('/productos/{id}', [ProductoController::class, 'show']);
 Route::get('/clima-tiquipaya', function() {
     return (new WeatherService())->getWeather();
 });
@@ -23,3 +24,8 @@ Route::get('/clima-tiquipaya', function() {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+
+
