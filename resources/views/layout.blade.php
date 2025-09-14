@@ -7,7 +7,7 @@
     <meta name="author" content="" />
     <title>@yield('title', 'Fertirriego')</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/logoFertirriego.png') }}" />
 
     <!-- Google Fonts -->
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
@@ -23,8 +23,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand text-white fw-bold text-uppercase fs-4" href="{{ route('home') }}">
-                <span style="color: #64A500;">Fertirrigación</span>
+            <a class="navbar-brand d-flex align-items-center me-auto" href="#page-top">
+            <img src="{{ asset('images/logoFertirriego.png') }}" alt="Logo" style="height: 32px; margin-right: 10px;">
+            <span class="fw-bold text-uppercase fs-5" style="color: #64A500;">Fertirrigación</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -68,11 +69,21 @@
                                     <li><a class="dropdown-item" href="{{ route('guia.practicas') }}">Buenas prácticas</a></li>
                                 </ul>
                             </li>
+                            <!-- NUEVO: Productos -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown">
+                                 Productos
+                                </a>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{{ route('productos.index') }}">Mis Productos</a></li>
+        <li><a class="dropdown-item" href="{{ route('productos.crear') }}">Agregar Producto</a></li>
+    </ul>
+</li>
                         @elseif(Auth::user()->rol === 'comprador')
                         <!-- Menú para Comprador -->
                             <li class="nav-item"><a class="nav-link" href="{{ route('buyer.dashboard') }}">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('asistente') }}">Asistente</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('productos.index') }}">Productos</a></li>
                         @endif
                     @endauth
 

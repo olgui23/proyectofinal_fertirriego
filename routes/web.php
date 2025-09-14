@@ -24,6 +24,14 @@ Route::get('/email/verify', [AuthController::class, 'showVerificationNotice'])
     ->middleware('auth')
     ->name('verification.notice');
 
+use App\Http\Controllers\ProductoController;
+
+// Ruta pública para productos
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+
+
+
+
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill(); // Marca el email como verificado automáticamente
     return redirect()->route('dashboard')
@@ -110,7 +118,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('rol:comprador')
         ->name('buyer.dashboard');
 
+    // Rutas para agregar PRODUCTOS
+    Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
+    Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
 
+
+    
     // Rutas de Mi Cultivo
     Route::prefix('mi-cultivo')->group(function () {
         Route::get('/reportes', [MiCultivoController::class, 'reportes'])->name('miCultivo.reportes');
