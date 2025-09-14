@@ -48,7 +48,7 @@
                 @endif
 
                 <div class="card-body">
-                    <h5 class="card-title">{{ $producto->emoji ?? '' }} {{ $producto->nombre }}</h5>
+                    <h5 class="card-title"> {{ $producto->nombre }}</h5>
                     <p class="card-text">{{ $producto->descripcion }}</p>
                     <p class="fw-bold text-success">Bs. {{ number_format($producto->precio, 2, ',', '.') }} / {{ $producto->unidad }}</p>
 

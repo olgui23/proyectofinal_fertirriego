@@ -26,8 +26,6 @@ class ProductoController extends Controller
             'precio' => 'required|numeric|min:0',
             'unidad' => 'required|string|max:20',
             'stock' => 'required|integer|min:0',
-            'categoria' => 'required|string|max:50',
-            'emoji' => 'nullable|string|max:5',
             'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'origen' => 'nullable|string|max:100',
             'beneficios' => 'nullable|string',
@@ -45,5 +43,12 @@ class ProductoController extends Controller
         Producto::create($data);
 
         return redirect()->route('productos.index')->with('success', 'Producto agregado correctamente');
+    }
+
+    public function show($id)
+    {
+        $producto = Producto::findOrFail($id);
+
+        return response()->json($producto);
     }
 }

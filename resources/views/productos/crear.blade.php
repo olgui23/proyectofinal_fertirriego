@@ -24,11 +24,6 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Emoji</label>
-            <input type="text" name="emoji" class="form-control" maxlength="5">
-        </div>
-
-        <div class="mb-3">
             <label class="form-label">Imagen</label>
             <input type="file" name="image_url" class="form-control">
         </div>
@@ -51,11 +46,6 @@
                 <label class="form-label">Stock *</label>
                 <input type="number" name="stock" class="form-control" required>
             </div>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Categoría *</label>
-            <input type="text" name="categoria" class="form-control" required>
         </div>
 
         <div class="mb-3">
