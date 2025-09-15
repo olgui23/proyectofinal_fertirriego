@@ -8,7 +8,7 @@
     <div class="main-content-container">
         <!-- Encabezado -->
         <div class="text-center mb-5">
-            <h1 class="calendar-title">BUENAS PRÁCTICAS AGRÍCOLAS</h1>
+            <h1 class="plagas-title">BUENAS PRÁCTICAS AGRÍCOLAS</h1>
             <p class="calendar-subtitle">Técnicas específicas para el cultivo de lechuga en Tiquipaya</p>
         </div>
 

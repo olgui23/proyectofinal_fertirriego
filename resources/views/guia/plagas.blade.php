@@ -8,7 +8,7 @@
     <div class="main-content-container">
         <!-- Encabezado -->
         <div class="text-center mb-5">
-            <h1 class="fw-bold">PLAGAS & ENFERMEDADES</h1>
+            <h1 class="plagas-title">PLAGAS & ENFERMEDADES</h1>
             <p class="calendar-subtitle">Identificación y manejo de problemas comunes en el cultivo de lechuga</p>
         </div>
 

@@ -290,3 +290,386 @@ footer {
 #submit-button {
     transition: all 0.3s ease;
 }
+
+
+/* ======================= */
+/* Estilos para Plagas UI  */
+/* ======================= */
+
+/* Contenedor principal */
+.main-content-container {
+    background: #fff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 120px; /* 👈 espacio para que el navbar no tape */
+}
+
+/* Banner del título */
+.title-banner {
+    background: linear-gradient(90deg, #64A500, #8BC34A);
+    padding: 2rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Estilo del título */
+.plagas-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Merriweather', serif;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.25);
+}
+
+/* Subtítulo */
+.calendar-subtitle {
+    font-size: 1.2rem;
+    color: #f1f1f1;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+
+
+
+.plagas-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #64A500;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 0.5rem;
+}
+
+.calendar-subtitle {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Tabs con estilo verde */
+.pest-tabs .nav-link {
+    border: none;
+    color: #555;
+    font-weight: 600;
+    border-radius: 30px;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+
+.pest-tabs .nav-link.active {
+    background-color: #64A500;
+    color: #fff !important;
+    box-shadow: 0 3px 8px rgba(100,165,0,0.4);
+}
+
+/* Tarjetas */
+.pest-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.pest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Contenedor de imagen */
+.pest-img-container {
+    position: relative;
+    height: 220px; /* altura uniforme */
+    overflow: hidden;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.pest-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Nivel de peligrosidad */
+.pest-danger-level {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Subtítulos dentro de tarjetas */
+.pest-title {
+    font-size: 1.3rem;
+    color: #2A2A2A;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.text-leaf {
+    color: #64A500;
+    font-weight: 600;
+}
+
+/* Lista de soluciones */
+.pest-solution-list li {
+    margin-bottom: 6px;
+}
+
+/* Prevención */
+.prevention-title {
+    color: #64A500;
+    font-weight: 700;
+}
+
+.prevention-list h5 {
+    color: #2A2A2A;
+    font-weight: 600;
+}
+
+.prevention-list p {
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+/* Calendario */
+.calendar-card {
+    border-radius: 15px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    margin-top: 1.5rem;
+}
+
+.bg-primary-green {
+    background-color: #64A500 !important;
+}
+
+.bg-light-green {
+    background-color: #7ccf48 !important;
+}
+.plagas-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #64A500 !important;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+/* ============================= */
+/* ESTILOS PARA SALUD VEGETAL   */
+/* ============================= */
+
+.salud-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #64A500;
+    font-family: 'Merriweather', serif;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.salud-subtitle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.salud-img-grid {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.salud-img-card {
+    flex: 1 1 300px;
+    max-width: 48%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.salud-img-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.salud-img-card h5 {
+    font-size: 1.2rem;
+    color: #64A500;
+    padding: 1rem 1rem 0 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.salud-img-card ul {
+    padding: 0 1.5rem 1rem 1.5rem;
+    margin: 0;
+    list-style-type: disc;
+}
+
+.salud-step-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #2A2A2A;
+}
+
+.salud-cause-list .cause-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9fff5;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+.salud-cause-list .cause-icon {
+    font-size: 1.5rem;
+    padding: 0.8rem;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.salud-cause-list .bg-danger { background-color: #dc3545; }
+.salud-cause-list .bg-warning { background-color: #ffc107; }
+.salud-cause-list .bg-info { background-color: #17a2b8; }
+
+.salud-cause-list h5 {
+    margin: 0;
+    font-weight: 700;
+    color: #2A2A2A;
+}
+
+.salud-cause-list p {
+    margin: 0;
+    color: #555;
+}
+
+/* ============================= */
+/* ESTILOS PARA BUENAS PRACTICAS   */
+/* ============================= */
+
+.plagas-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #64A500;
+    font-family: 'Merriweather', serif;
+    margin-top: 50px;
+}
+
+.section-header {
+    background-color: #64A500;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.practice-card {
+    background-color: #f9fff5;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.practice-img-container img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.practice-content {
+    padding: 1.2rem;
+}
+
+.practice-content h4 {
+    color: #2A2A2A;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+
+.practice-meta .badge {
+    background-color: #C8E6C9;
+    color: #2A2A2A;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.practice-list {
+    padding-left: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.practice-tip {
+    background-color: #64A500;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.calendar-table {
+    background-color: #f6fff0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.calendar-table thead {
+    background-color: #A5D6A7;
+    color: #2A2A2A;
+    font-weight: bold;
+}
+
+.calendar-table td, .calendar-table th {
+    padding: 1rem;
+    vertical-align: middle;
+    border-top: 1px solid #e0f2e9;
+}
+
+.eco-card {
+    background-color: #eefbe7;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.eco-icon {
+    font-size: 2rem;
+    background-color: #64A500;
+    color: white;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eco-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #2A2A2A;
+}
+
+.eco-list {
+    padding-left: 1.2rem;
+    text-align: left;
+}

@@ -8,9 +8,10 @@
     <div class="main-content-container">
         <!-- Encabezado -->
         <div class="text-center mb-5">
-            <h1 class="calendar-title">VARIEDADES DE LECHUGA</h1>
-            <p class="calendar-subtitle">Descubre las diferentes variedades y sus características</p>
-        </div>
+    <h1 class="salud-title">VARIEDADES DE LECHUGA</h1>
+    <p class="section-subtitle">Descubre las diferentes variedades y sus características</p>
+</div>
+
 
         <!-- Sección de variedades -->
         <div class="row row-cols-1 row-cols-md-2 g-4">

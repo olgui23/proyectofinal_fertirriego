@@ -7,86 +7,72 @@
     <!-- Contenedor principal con sombra -->
     <div class="main-content-container">
         <!-- Encabezado -->
-        <div class="text-center mb-5">
-            <h1 class="calendar-title">SALUD VEGETAL</h1>
-            <p class="calendar-subtitle">Diagnóstico y manejo integral de problemas en el cultivo de lechuga</p>
-        </div>
+        <div class="text-center mb-5 mt-4">
+        <h1 class="salud-title">SALUD VEGETAL</h1>
+        <p class="salud-subtitle">Diagnóstico y manejo integral de problemas en el cultivo de lechuga</p>
+    </div>
 
-        <!-- Sistema de diagnóstico -->
-        <div class="card diagnostic-card mb-5">
-            <div class="card-header bg-primary-green text-white">
-                <h3 class="mb-0"><i class="fas fa-clipboard-check me-2"></i>Diagnóstico Rápido</h3>
+
+        <!-- PASO 1: Observa los síntomas -->
+    <div class="mb-5">
+        <h2 class="salud-step-title">1. Observa los síntomas</h2>
+        <div class="salud-img-grid">
+            <!-- Imagen de hojas -->
+            <div class="salud-img-card">
+                <img src="{{ asset('images/sintomas.jpg') }}" alt="Síntomas en hojas">
+                <h5>Problemas en hojas</h5>
+                <ul>
+                    <li>Manchas</li>
+                    <li>Amarillamiento</li>
+                    <li>Deformaciones</li>
+                </ul>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="diagnostic-step">
-                            <div class="step-number bg-leaf">1</div>
-                            <h4 class="step-title">Observa los síntomas</h4>
-                            <div class="step-content">
-                                <div class="symptom-card">
-                                    <img src="{{ asset('images/sintomas.jpg') }}" alt="Síntomas en hojas" class="symptom-img">
-                                    <div class="symptom-overlay">
-                                        <h5>Problemas en hojas</h5>
-                                        <ul>
-                                            <li>Manchas</li>
-                                            <li>Amarillamiento</li>
-                                            <li>Deformaciones</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="symptom-card">
-                                    <img src="{{ asset('images/raices.jpg') }}" alt="Síntomas en raíces" class="symptom-img">
-                                    <div class="symptom-overlay">
-                                        <h5>Problemas en raíces</h5>
-                                        <ul>
-                                            <li>Pudrición</li>
-                                            <li>Raíces oscuras</li>
-                                            <li>Falta de desarrollo</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="diagnostic-step">
-                            <div class="step-number bg-leaf">2</div>
-                            <h4 class="step-title">Analiza posibles causas</h4>
-                            <div class="cause-list">
-                                <div class="cause-item">
-                                    <div class="cause-icon bg-danger">
-                                        <i class="fas fa-bug"></i>
-                                    </div>
-                                    <div class="cause-content">
-                                        <h5>Plagas</h5>
-                                        <p>Insectos, ácaros o nematodos que dañan la planta</p>
-                                    </div>
-                                </div>
-                                <div class="cause-item">
-                                    <div class="cause-icon bg-warning">
-                                        <i class="fas fa-virus"></i>
-                                    </div>
-                                    <div class="cause-content">
-                                        <h5>Enfermedades</h5>
-                                        <p>Hongos, bacterias o virus que afectan el desarrollo</p>
-                                    </div>
-                                </div>
-                                <div class="cause-item">
-                                    <div class="cause-icon bg-info">
-                                        <i class="fas fa-flask"></i>
-                                    </div>
-                                    <div class="cause-content">
-                                        <h5>Desequilibrios nutricionales</h5>
-                                        <p>Excesos o deficiencias de nutrientes esenciales</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Imagen de raíces -->
+            <div class="salud-img-card">
+                <img src="{{ asset('images/raices.jpg') }}" alt="Síntomas en raíces">
+                <h5>Problemas en raíces</h5>
+                <ul>
+                    <li>Pudrición</li>
+                    <li>Raíces oscuras</li>
+                    <li>Falta de desarrollo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 2: Analiza posibles causas -->
+    <div class="mb-5">
+        <h2 class="salud-step-title">2. Analiza posibles causas</h2>
+        <div class="salud-cause-list">
+            <div class="cause-item">
+                <div class="cause-icon bg-danger">
+                    <i class="fas fa-bug"></i>
+                </div>
+                <div>
+                    <h5>Plagas</h5>
+                    <p>Insectos, ácaros o nematodos que dañan la planta</p>
+                </div>
+            </div>
+            <div class="cause-item">
+                <div class="cause-icon bg-warning">
+                    <i class="fas fa-virus"></i>
+                </div>
+                <div>
+                    <h5>Enfermedades</h5>
+                    <p>Hongos, bacterias o virus que afectan el desarrollo</p>
+                </div>
+            </div>
+            <div class="cause-item">
+                <div class="cause-icon bg-info">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div>
+                    <h5>Desequilibrios nutricionales</h5>
+                    <p>Excesos o deficiencias de nutrientes esenciales</p>
                 </div>
             </div>
         </div>
+    </div>
 
         <!-- Guía de nutrientes -->
         <div class="card nutrient-card mb-5">
