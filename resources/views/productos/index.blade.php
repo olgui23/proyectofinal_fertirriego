@@ -8,6 +8,7 @@
 @endpush
 
 @section('cabecera')
+
 <section class="page-hero products-hero bg-light py-5" style="margin-top: 80px;">
     <div class="container text-center">
         <h1 class="display-4 fw-bold">Nuestros Productos</h1>
@@ -26,7 +27,7 @@
 
 
 <div class="container my-5">
-
+    
     <!-- Buscador y orden -->
     <!-- Buscador y filtro en una sola fila -->
 <div class="search-filter-row mb-4">
@@ -128,6 +129,7 @@
     </div>
   </div>
 </div>
+</div>
 
 @endsection
 
@@ -161,6 +163,7 @@
       <p>🌱 Origen: <span class="text-muted">${producto.origen}</span></p>
 
       <p class="mt-3"><strong>✨ Beneficios:</strong></p>
+      <p class="mt-3"><strong>✨ Stock:</strong></p>
       <p class="text-muted">${producto.beneficios}</p>
 
       ${producto.disponible

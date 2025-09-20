@@ -121,7 +121,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rutas para agregar PRODUCTOS
     Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
     Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
-
+    
 
     
     // Rutas de Mi Cultivo
