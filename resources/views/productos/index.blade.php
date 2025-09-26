@@ -5,6 +5,8 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-products.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 @endpush
 
 @section('cabecera')
@@ -132,6 +134,8 @@
   </div>
 </div>
 </div>
+@include('productos.checkout-modal')
+
 
 @endsection
 @push('scripts')
@@ -408,13 +412,10 @@ function quitarDelCarrito(index) {
 }
 
 function finalizarCompra() {
-    if (CURRENT_USER_ROLE !== 'comprador') {
-        mostrarToast("Solo compradores pueden finalizar la compra.", true);
-        return;
-    }
-
-    alert("Funcionalidad de finalizar compra aún no implementada.");
+    const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+    modal.show();
 }
+
 
 // Mostrar notificaciones tipo toast
 function mostrarToast(mensaje, esError = false) {

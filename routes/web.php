@@ -14,6 +14,12 @@ use App\Http\Controllers\AsistenteController;
 use App\Http\Controllers\ControlCultivoController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\VentaController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/comprar', [VentaController::class, 'store'])->name('ventas.store');
+});
+
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 // haber sida 

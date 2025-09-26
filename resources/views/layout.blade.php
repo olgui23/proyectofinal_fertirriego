@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Sistema de Fertirrigación para cultivo de lechuga en Tiquipaya" />
     <meta name="author" content="" />
@@ -11,6 +12,10 @@
 
     <!-- Google Fonts -->
    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <!-- Google Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 
     <!-- Font Awesome -->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -18,8 +23,7 @@
     <!-- Bootstrap & Theme CSS -->
     <link href="{{ asset('startbootstrap-agency-gh-pages/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
-    @stack('scripts')
-
+    
 </head>
 <body id="page-top">
     <!-- Navigation -->
@@ -144,5 +148,6 @@
     <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('startbootstrap-agency-gh-pages/js/scripts.js') }}"></script>
+@stack('scripts')
 </body>
 </html>
