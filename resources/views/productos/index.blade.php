@@ -454,5 +454,12 @@ function actualizarContadorCarrito() {
     const cartCount = document.getElementById('cartCount');
     if(cartCount) cartCount.textContent = totalItems;
 }
+// Vaciar carrito (despues de la compra)
+function vaciarCarrito() {
+  localStorage.removeItem('carrito');
+  localStorage.removeItem('carrito_user_id');
+  actualizarContadorCarrito();
+}
+
 </script>
 @endpush

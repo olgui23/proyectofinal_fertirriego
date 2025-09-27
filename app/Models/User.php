@@ -60,10 +60,11 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return string
      */
-    public function getAuthIdentifierName()
-    {
-        return 'username';  // Prioridad al username sobre email
-    }
+    // public function getAuthIdentifierName()
+// {
+//     return 'username';
+// }
+
 
     /**
      * Calculate user age.
@@ -145,4 +146,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orWhere('email', $identifier)
             ->first();
     }
+
+    // ✅ Relación con ventas
+    public function ventas()
+        {
+            return $this->hasMany(Venta::class);
+        }
+
 }

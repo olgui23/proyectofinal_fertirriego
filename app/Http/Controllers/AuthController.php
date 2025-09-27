@@ -300,4 +300,14 @@ public function resendVerification(Request $request)
         return redirect()->route('profile.edit')
             ->with('success', 'Perfil actualizado correctamente');
     }    
+    /**
+ * Campo a usar para login.
+ *
+ * @return string
+ */
+public function username()
+{
+    return 'login'; // este es el nombre del input, no del campo de la DB
+}
+
 }

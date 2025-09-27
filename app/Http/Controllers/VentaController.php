@@ -16,6 +16,7 @@ class VentaController extends Controller
 {
     public function store(Request $request)
     {
+
         // 🔎 Log para verificar entrada completa
         Log::info("👉 Entró al método store", $request->all());
 
