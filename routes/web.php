@@ -96,6 +96,7 @@ Route::get('/email/verify/{id}/{hash}', function ($id, $hash) {
 
 
 
+
 Route::post('/email/verification-notification', [AuthController::class, 'resendVerification'])
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.resend');
@@ -126,8 +127,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rutas para agregar PRODUCTOS
     Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
-    Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
-    
+    // Mostrar formulario para editar producto
+// Mostrar formulario para crear producto
+Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
+
+// Mostrar formulario para editar producto
+Route::get('/productos/editar/{id}', [ProductoController::class, 'editar'])->name('productos.editar');
+
+// Guardar nuevo producto
+Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
+
+// Actualizar producto existente (agregado PUT)
+Route::put('/productos/{id}', [ProductoController::class, 'actualizar'])->name('productos.update');
+
+// Ruta para eliminar (recomiendo usar DELETE y con ID)
+Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
+
+Route::middleware(['auth', 'rol:agricultor'])->group(function () {
+    Route::get('/mis-productos', [ProductoController::class, 'misProductos'])->name('productos.agricultor');
+    Route::get('/productos/agricultor', [ProductoController::class, 'agricultor'])->name('productos.agricultor');
+
+    Route::post('/productos/{id}/toggle-disponible', [ProductoController::class, 'toggleDisponible'])->name('productos.toggleDisponible');
+});
+
 
     
     // Rutas de Mi Cultivo

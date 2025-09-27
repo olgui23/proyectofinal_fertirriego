@@ -4,14 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; // <- Importación necesaria
+use Illuminate\Support\Facades\Storage;
+
+
 
 class Producto extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'productos';
     protected $fillable = [
     'nombre', 'image_url', 'descripcion', 'precio',
-    'unidad', 'stock', 'origen', 'beneficios', 'disponible'
+    'unidad', 'stock', 'origen', 'beneficios', 'disponible', 'user_id'
 ];
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
+public function getImagePathAttribute()
+{
+    if ($this->image_url && Storage::disk('public')->exists($this->image_url)) {
+        return asset('storage/' . $this->image_url);
+    }
+
+    // Imagen por defecto si el archivo no existe
+    return asset('storage/productos/default.jpg');
+}
+
+
 
 }

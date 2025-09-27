@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductoController extends Controller
 {
@@ -19,37 +21,93 @@ class ProductoController extends Controller
     }
 
     public function guardar(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'required|string',
-            'precio' => 'required|numeric|min:0',
-            'unidad' => 'required|string|max:20',
-            'stock' => 'required|integer|min:0',
-            'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'origen' => 'nullable|string|max:100',
-            'beneficios' => 'nullable|string',
-            'disponible' => 'boolean'
-        ]);
+{
+    $request->validate([
+        'nombre' => 'required|string|max:100',
+        'descripcion' => 'required|string',
+        'precio' => 'required|numeric|min:0',
+        'unidad' => 'required|string|max:20',
+        'stock' => 'required|integer|min:0',
+        'image_url' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'origen' => 'nullable|string|max:100',
+        'beneficios' => 'nullable|string',
+        'disponible' => 'nullable|boolean'
+    ]);
 
-        $data = $request->all();
+    $data = $request->all();
 
-        // Guardar imagen si se sube
-        if ($request->hasFile('image_url')) {
-            $path = $request->file('image_url')->store('productos', 'public');
-            $data['image_url'] = 'storage/' . $path;
-        }
-
-        Producto::create($data);
-
-        return redirect()->route('productos.index')->with('success', 'Producto agregado correctamente');
+    // Subir imagen si existe
+    if ($request->hasFile('image_url')) {
+        $path = $request->file('image_url')->store('productos', 'public');
+        $data['image_url'] = 'storage/' . $path;
     }
 
-    public function edit($id)
+    // ✅ Agregar el ID del usuario autenticado
+    $data['user_id'] = auth()->id();
+
+    // ✅ Asegurar el checkbox de disponibilidad
+    $data['disponible'] = $request->has('disponible');
+
+    // Crear el producto
+    Producto::create($data);
+
+    return redirect()->route('productos.agricultor')->with('success', 'Producto agregado correctamente.');
+}
+
+
+   public function editar($id)
 {
     $producto = Producto::findOrFail($id);
     return view('productos.editar', compact('producto'));
 }
+
+public function actualizar(Request $request, $id)
+{
+    $producto = Producto::findOrFail($id);
+
+    // Validar datos (ejemplo)
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'precio' => 'required|numeric',
+        // más validaciones según tus campos
+    ]);
+
+    // Actualizar campos
+    $producto->nombre = $request->nombre;
+    $producto->descripcion = $request->descripcion;
+    $producto->precio = $request->precio;
+    $producto->unidad = $request->unidad;
+    $producto->stock = $request->stock;
+    $producto->origen = $request->origen;
+    $producto->beneficios = $request->beneficios;
+    $producto->disponible = $request->has('disponible');
+
+    // Manejo imagen (opcional)
+    if ($request->hasFile('image_url')) {
+        $path = $request->file('image_url')->store('productos', 'public');
+        $producto->image_url = $path;
+    }
+
+    $producto->save();
+
+    return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
+}
+
+
+public function eliminar($id)
+{
+    $producto = Producto::findOrFail($id);
+
+    // Opcional: eliminar imagen del storage si existe
+    if ($producto->image_url && Storage::disk('public')->exists($producto->image_url)) {
+        Storage::disk('public')->delete($producto->image_url);
+    }
+
+    $producto->delete();
+
+    return redirect()->route('productos.agricultor')->with('success', 'Producto eliminado correctamente.');
+}
+
 
 public function update(Request $request, $id)
 {
@@ -76,5 +134,27 @@ public function destroy($id)
 
     return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente.');
 }
+
+public function misProductos()
+{
+    $userId = auth()->id(); // asumiendo que hay relación entre producto y usuario
+    $productos = Producto::where('user_id', $userId)->get(); // Ajusta si es distinto
+    return view('productos.agricultor', compact('productos'));
+}
+public function toggleDisponible($id)
+{
+    $producto = Producto::findOrFail($id);
+    $producto->disponible = !$producto->disponible;
+    $producto->save();
+
+    return back()->with('success', 'Disponibilidad actualizada.');
+}
+
+public function agricultor()
+{
+    $productos = Producto::where('user_id', auth()->id())->get();
+    return view('productos.agricultor', compact('productos'));
+}
+
 
 }

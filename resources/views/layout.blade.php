@@ -83,6 +83,7 @@
     <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="{{ route('productos.index') }}">Mis Productos</a></li>
         <li><a class="dropdown-item" href="{{ route('productos.crear') }}">Agregar Producto</a></li>
+        <li><a class="dropdown-item" href="{{ route('productos.agricultor') }}">Administración</a></li>
     </ul>
 </li>
                         @elseif(Auth::user()->rol === 'comprador')
