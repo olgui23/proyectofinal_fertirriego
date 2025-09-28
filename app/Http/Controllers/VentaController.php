@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class VentaController extends Controller
 {
     public function store(Request $request)
     {
-
         // 🔎 Log para verificar entrada completa
         Log::info("👉 Entró al método store", $request->all());
 
@@ -67,8 +68,15 @@ class VentaController extends Controller
             }
 
             // 🧾 Crear venta
+            if (!Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Debes iniciar sesión para comprar.',
+                ], 403);
+            }
+
             $venta = Venta::create([
-                'user_id' => Auth::id() ?? 1,
+                'user_id' => Auth::id(),
                 'fecha_venta' => Carbon::now(),
                 'total' => $total,
                 'estado' => 'pendiente',
@@ -124,4 +132,50 @@ class VentaController extends Controller
             ], 500);
         }
     }
+
+    public function index()
+    {
+        $ventas = Venta::with(['user', 'detalles.producto'])->latest()->get();
+        return view('productos.ventas', compact('ventas'));
+    }
+
+    public function aprobar($id)
+    {
+        $venta = Venta::findOrFail($id);
+        $venta->estado = 'aprobado';
+        $venta->estado_pago = 'verificado';
+        $venta->fecha_verificacion = Carbon::now();
+        $venta->save();
+
+        return back()->with('success', '✅ Venta aprobada correctamente.');
+    }
+
+    public function rechazar($id)
+    {
+        $venta = Venta::findOrFail($id);
+        $venta->estado = 'rechazado';
+        $venta->estado_pago = 'rechazado';
+        $venta->fecha_verificacion = Carbon::now();
+        $venta->save();
+
+        return back()->with('success', '❌ Venta rechazada.');
+    }
+
+    public function show($id)
+    {
+        $venta = Venta::with(['user', 'detalles.producto'])->findOrFail($id);
+        return view('productos.detalleventa', compact('venta'));
+    }
+
+    public function pdf($id)
+{
+    $venta = Venta::with(['user', 'detalles.producto'])->findOrFail($id);
+
+    // Cargar vista en PDF
+    $pdf = PDF::loadView('productos.comprobantepdf', compact('venta'));
+
+    // Descargar con nombre único
+    return $pdf->stream("comprobante_venta_{$venta->id}.pdf");
+}
+
 }

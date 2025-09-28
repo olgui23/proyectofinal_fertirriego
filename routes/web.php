@@ -127,21 +127,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rutas para agregar PRODUCTOS
     Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
+    // Mostrar formulario para crear producto
+    Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
     // Mostrar formulario para editar producto
-// Mostrar formulario para crear producto
-Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
+    Route::get('/productos/editar/{id}', [ProductoController::class, 'editar'])->name('productos.editar');
+    // Guardar nuevo producto
+    Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
+    // Actualizar producto existente (agregado PUT)
+    Route::put('/productos/{id}', [ProductoController::class, 'actualizar'])->name('productos.update');
+    // Ruta para eliminar (recomiendo usar DELETE y con ID)
+    Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
 
-// Mostrar formulario para editar producto
-Route::get('/productos/editar/{id}', [ProductoController::class, 'editar'])->name('productos.editar');
+    // Rutas para VENTAS
+    Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
+    Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
+    Route::post('/ventas/{id}/aprobar', [VentaController::class, 'aprobar'])->name('ventas.aprobar');
+    Route::post('/ventas/{id}/rechazar', [VentaController::class, 'rechazar'])->name('ventas.rechazar');
+    Route::get('/ventas/{id}/pdf', [App\Http\Controllers\VentaController::class, 'pdf'])->name('ventas.pdf');
 
-// Guardar nuevo producto
-Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
-
-// Actualizar producto existente (agregado PUT)
-Route::put('/productos/{id}', [ProductoController::class, 'actualizar'])->name('productos.update');
-
-// Ruta para eliminar (recomiendo usar DELETE y con ID)
-Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
 
 Route::middleware(['auth', 'rol:agricultor'])->group(function () {
     Route::get('/mis-productos', [ProductoController::class, 'misProductos'])->name('productos.agricultor');

@@ -80,12 +80,13 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown">
                                  Productos
                                 </a>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{{ route('productos.index') }}">Mis Productos</a></li>
-        <li><a class="dropdown-item" href="{{ route('productos.crear') }}">Agregar Producto</a></li>
-        <li><a class="dropdown-item" href="{{ route('productos.agricultor') }}">Administración</a></li>
-    </ul>
-</li>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('productos.index') }}">Mis Productos</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('productos.crear') }}">Agregar Producto</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('productos.agricultor') }}">Administración</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('ventas.index') }}">Ventas</a></li>
+                                    </ul>
+                            </li>
                         @elseif(Auth::user()->rol === 'comprador')
                         <!-- Menú para Comprador -->
                             <li class="nav-item"><a class="nav-link" href="{{ route('buyer.dashboard') }}">Inicio</a></li>

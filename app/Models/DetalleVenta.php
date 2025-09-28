@@ -25,8 +25,9 @@ class DetalleVenta extends Model
     }
 
     // ✅ Relación con producto
-    public function producto()
-    {
-        return $this->belongsTo(Producto::class);
-    }
+        public function producto()
+        {
+    return $this->belongsTo(Producto::class, 'producto_id');
+        }
+
 }

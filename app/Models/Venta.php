@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Venta extends Model
 {
     use HasFactory;
+    protected $casts = [
+    'fecha_venta' => 'datetime',
+];
 
     protected $fillable = [
         'user_id',
@@ -30,7 +33,7 @@ class Venta extends Model
     // ✅ Relación con usuario
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // ✅ Relación con detalles
@@ -38,4 +41,6 @@ class Venta extends Model
     {
         return $this->hasMany(DetalleVenta::class);
     }
+    
+    
 }
