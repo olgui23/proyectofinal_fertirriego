@@ -14,18 +14,18 @@ class Venta extends Model
 
     protected $fillable = [
         'user_id',
-        'fecha_venta',
-        'total',
-        'estado',
-        'tipo_entrega',
-        'direccion_envio',
-        'latitud',
-        'longitud',
-        'telefono_contacto',
-        'comprobante_pago',
-        'estado_pago',
-        'fecha_verificacion',
-        'comentarios_verificacion',
+    'fecha_venta',
+    'total',
+    'estado_venta', // 👈 usamos estado_venta en lugar de estado
+    'tipo_entrega',
+    'direccion_envio',
+    'latitud',
+    'longitud',
+    'telefono_contacto',
+    'comprobante_pago',
+    'estado_pago',
+    'fecha_verificacion',
+    'comentarios_verificacion',
     ];
 
     protected $dates = ['fecha_venta', 'fecha_verificacion'];

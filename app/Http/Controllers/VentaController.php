@@ -13,24 +13,20 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-
 class VentaController extends Controller
 {
     public function store(Request $request)
     {
-        // 🔎 Log para verificar entrada completa
         Log::info("👉 Entró al método store", $request->all());
 
-        // ✅ Decodificar productos si vienen como JSON string
+        // Decodificar productos si vienen como JSON
         if (is_string($request->productos)) {
             $productos = json_decode($request->productos, true);
             $request->merge(['productos' => $productos]);
         }
 
-        // 🔎 Log para ver productos decodificados
         Log::info("📦 Productos decodificados:", $request->productos ?? []);
 
-        // 🚨 Validación con captura de errores
         try {
             $request->validate([
                 'productos' => 'required|array|min:1',
@@ -45,7 +41,6 @@ class VentaController extends Controller
             ]);
         } catch (ValidationException $e) {
             Log::error("❌ Error de validación en store:", $e->errors());
-
             return response()->json([
                 'success' => false,
                 'message' => '❌ Error de validación de datos.',
@@ -56,10 +51,10 @@ class VentaController extends Controller
         DB::beginTransaction();
 
         try {
-            // 📸 Guardar imagen del comprobante
+            // Guardar imagen del comprobante
             $comprobantePath = $request->file('comprobante_pago')->store('comprobantes', 'public');
 
-            // 💰 Calcular total
+            // Calcular total
             $total = 0;
             foreach ($request->productos as $item) {
                 $producto = Producto::findOrFail($item['id']);
@@ -67,7 +62,6 @@ class VentaController extends Controller
                 $total += $subtotal;
             }
 
-            // 🧾 Crear venta
             if (!Auth::check()) {
                 return response()->json([
                     'success' => false,
@@ -75,11 +69,12 @@ class VentaController extends Controller
                 ], 403);
             }
 
+            // Crear venta usando estado_venta
             $venta = Venta::create([
                 'user_id' => Auth::id(),
                 'fecha_venta' => Carbon::now(),
                 'total' => $total,
-                'estado' => 'pendiente',
+                'estado_venta' => 'pendiente', // ✅ reemplazado
                 'estado_pago' => 'pendiente',
                 'tipo_entrega' => $request->tipo_entrega,
                 'direccion_envio' => $request->tipo_entrega === 'envio' ? $request->direccion_envio : null,
@@ -89,20 +84,17 @@ class VentaController extends Controller
                 'comprobante_pago' => $comprobantePath,
             ]);
 
-            // 📦 Guardar detalle venta
+            // Guardar detalle venta
             foreach ($request->productos as $item) {
                 $producto = Producto::findOrFail($item['id']);
 
-                // Validar stock
                 if ($item['cantidad'] > $producto->stock) {
                     throw new \Exception("No hay suficiente stock para {$producto->nombre}.");
                 }
 
-                // Restar stock
                 $producto->stock -= $item['cantidad'];
                 $producto->save();
 
-                // Crear detalle
                 DetalleVenta::create([
                     'venta_id' => $venta->id,
                     'producto_id' => $producto->id,
@@ -140,26 +132,26 @@ class VentaController extends Controller
     }
 
     public function aprobar($id)
-    {
-        $venta = Venta::findOrFail($id);
-        $venta->estado = 'aprobado';
-        $venta->estado_pago = 'verificado';
-        $venta->fecha_verificacion = Carbon::now();
-        $venta->save();
+{
+    $venta = Venta::findOrFail($id);
+    $venta->estado_venta = 'aprobado'; // 👈 corregido
+    $venta->estado_pago = 'verificado';
+    $venta->save();
 
-        return back()->with('success', '✅ Venta aprobada correctamente.');
-    }
+    return back()->with('success', '✅ Venta aprobada correctamente.');
+}
 
-    public function rechazar($id)
-    {
-        $venta = Venta::findOrFail($id);
-        $venta->estado = 'rechazado';
-        $venta->estado_pago = 'rechazado';
-        $venta->fecha_verificacion = Carbon::now();
-        $venta->save();
+public function rechazar($id)
+{
+    $venta = Venta::findOrFail($id);
+    $venta->estado_venta = 'cancelado'; // 👈 corregido
+    $venta->estado_pago = 'rechazado';
+    $venta->save();
 
-        return back()->with('success', '❌ Venta rechazada.');
-    }
+    return back()->with('success', '❌ Venta rechazada.');
+}
+
+
 
     public function show($id)
     {
@@ -168,14 +160,9 @@ class VentaController extends Controller
     }
 
     public function pdf($id)
-{
-    $venta = Venta::with(['user', 'detalles.producto'])->findOrFail($id);
-
-    // Cargar vista en PDF
-    $pdf = PDF::loadView('productos.comprobantepdf', compact('venta'));
-
-    // Descargar con nombre único
-    return $pdf->stream("comprobante_venta_{$venta->id}.pdf");
-}
-
+    {
+        $venta = Venta::with(['user', 'detalles.producto'])->findOrFail($id);
+        $pdf = PDF::loadView('productos.comprobantepdf', compact('venta'));
+        return $pdf->stream("comprobante_venta_{$venta->id}.pdf");
+    }
 }

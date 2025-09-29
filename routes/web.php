@@ -126,17 +126,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('buyer.dashboard');
 
     // Rutas para agregar PRODUCTOS
-    Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
-    // Mostrar formulario para crear producto
-    Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
-    // Mostrar formulario para editar producto
-    Route::get('/productos/editar/{id}', [ProductoController::class, 'editar'])->name('productos.editar');
-    // Guardar nuevo producto
-    Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
-    // Actualizar producto existente (agregado PUT)
-    Route::put('/productos/{id}', [ProductoController::class, 'actualizar'])->name('productos.update');
-    // Ruta para eliminar (recomiendo usar DELETE y con ID)
-    Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
+    // RUTAS SUGERIDAS EN `web.php`
+        Route::get('/productos/crear', [ProductoController::class, 'crear'])->name('productos.crear');
+        Route::get('/productos/editar/{id}', [ProductoController::class, 'editar'])->name('productos.editar');
+        Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
+        Route::put('/productos/{id}', [ProductoController::class, 'actualizar'])->name('productos.update');
+        Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
 
     // Rutas para VENTAS
     Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');

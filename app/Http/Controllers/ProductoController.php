@@ -98,15 +98,13 @@ public function eliminar($id)
 {
     $producto = Producto::findOrFail($id);
 
-    // Opcional: eliminar imagen del storage si existe
-    if ($producto->image_url && Storage::disk('public')->exists($producto->image_url)) {
-        Storage::disk('public')->delete($producto->image_url);
-    }
+    // Marcar como no disponible (eliminación lógica)
+    $producto->disponible = false;
+    $producto->save();
 
-    $producto->delete();
-
-    return redirect()->route('productos.agricultor')->with('success', 'Producto eliminado correctamente.');
+    return redirect()->route('productos.agricultor')->with('success', 'Producto marcado como no disponible.');
 }
+
 
 
 public function update(Request $request, $id)
@@ -137,10 +135,21 @@ public function destroy($id)
 
 public function misProductos()
 {
-    $userId = auth()->id(); // asumiendo que hay relación entre producto y usuario
-    $productos = Producto::where('user_id', $userId)->get(); // Ajusta si es distinto
+    $userId = auth()->id();
+    $productos = Producto::where('user_id', $userId)
+                         ->where('disponible', true) // 👈 solo productos activos
+                         ->get();
     return view('productos.agricultor', compact('productos'));
 }
+
+public function agricultor()
+{
+    $productos = Producto::where('user_id', auth()->id())
+                         ->where('disponible', true) // 👈 solo productos activos
+                         ->get();
+    return view('productos.agricultor', compact('productos'));
+}
+
 public function toggleDisponible($id)
 {
     $producto = Producto::findOrFail($id);
@@ -148,12 +157,6 @@ public function toggleDisponible($id)
     $producto->save();
 
     return back()->with('success', 'Disponibilidad actualizada.');
-}
-
-public function agricultor()
-{
-    $productos = Producto::where('user_id', auth()->id())->get();
-    return view('productos.agricultor', compact('productos'));
 }
 
 

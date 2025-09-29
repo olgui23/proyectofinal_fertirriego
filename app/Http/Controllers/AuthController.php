@@ -63,7 +63,7 @@ class AuthController extends Controller
             ]);
         }
         // Verificar si el usuario está activo
-        if (isset($user->estado) && $user->estado !== 'activo') {
+        if (isset($user->estado) && $user->estado != 1) {
             throw ValidationException::withMessages([
                 'login' => 'Tu cuenta está desactivada. Contacta al administrador.',
             ]);
