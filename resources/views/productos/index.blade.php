@@ -10,7 +10,6 @@
 @endpush
 
 @section('cabecera')
-
 <section class="page-hero products-hero bg-light py-5" style="margin-top: 80px;">
     <div class="container text-center">
         <h1 class="display-4 fw-bold">Nuestros Productos</h1>

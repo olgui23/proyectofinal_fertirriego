@@ -138,7 +138,7 @@
             📄 Nota de rechazo
         </a>
     @else
-        <span class="text-muted">Pendiente de aprobación</span>
+        <span class="text-muted"> - </span>
     @endif
 </td>
 
