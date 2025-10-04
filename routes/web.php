@@ -15,6 +15,9 @@ use App\Http\Controllers\ControlCultivoController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\EquipoController;
+
+Route::resource('equipos', EquipoController::class);
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/comprar', [VentaController::class, 'store'])->name('ventas.store');

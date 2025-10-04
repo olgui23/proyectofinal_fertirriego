@@ -40,7 +40,9 @@
                                 <td>{{ $index + 1 }}</td>
 
                                 <!-- Cliente -->
-                                <td>{{ $venta->user->name }}</td>
+                                <td>{{ $venta->user->nombre }}</td>
+                                
+
 
                                 <!-- Fecha -->
                                 <td>{{ \Carbon\Carbon::parse($venta->fecha_venta)->format('d/m/Y H:i') }}</td>

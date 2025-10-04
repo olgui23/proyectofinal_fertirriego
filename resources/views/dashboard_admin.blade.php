@@ -167,7 +167,7 @@
                             <tbody>
                                 @foreach($recentUsers as $user)
                                 <tr>
-                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->nombre_completo }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         <span class="badge bg-{{ $user->rol === 'Administrador' ? 'primary' : ($user->rol === 'Agricultor' ? 'success' : 'info') }}">

@@ -49,7 +49,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Agricultores</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Cultivos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Equipos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('equipos.index') }}">Equipos</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Reportes</a></li>
                         @elseif(Auth::user()->rol === 'agricultor')
                         <!-- Menú para Agricultor -->

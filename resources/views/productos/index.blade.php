@@ -20,7 +20,6 @@
 
 @section('contenido')
 
-<!-- Botón carrito flotante con contador -->
 <!-- Botón carrito flotante con contador solo para compradores -->
 @if(auth()->check() && auth()->user()->rol === 'comprador')
     <div id="floatingCartContainer" onclick="mostrarCarrito()">
