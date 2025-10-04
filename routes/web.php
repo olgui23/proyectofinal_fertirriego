@@ -19,6 +19,7 @@ use App\Http\Controllers\EquipoController;
 
 Route::resource('equipos', EquipoController::class);
 
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/comprar', [VentaController::class, 'store'])->name('ventas.store');
 });

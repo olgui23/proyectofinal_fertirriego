@@ -107,11 +107,11 @@ document.addEventListener('DOMContentLoaded', function () {
         boton.addEventListener('click', function () {
             const id = this.dataset.id;
 
-            fetch(`/equipos/${id}`)
+            fetch(`{{ url('equipos') }}/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById('equipo-id').textContent = data.id;
-                    document.getElementById('equipo-usuario').textContent = data.user ? data.user.name : 'N/A';
+                    document.getElementById('equipo-usuario').textContent = data.user ? data.user.nombre_completo : 'N/A';
                     document.getElementById('equipo-mac').textContent = data.mac;
                     document.getElementById('equipo-descripcion').textContent = data.descripcion ?? 'N/A';
                     document.getElementById('equipo-ubicacion').textContent = data.ubicacion ?? 'N/A';

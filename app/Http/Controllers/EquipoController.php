@@ -39,16 +39,20 @@ class EquipoController extends Controller
     }
 
     // Mostrar un equipo
-    public function show($id)
-    {
-        $equipo = Equipo::with('user')->findOrFail($id);
+    // EquipoController.php
 
-        if (request()->ajax()) {
-            return response()->json($equipo);
-        }
+public function show($id)
+{
+    $equipo = Equipo::with('user')->findOrFail($id);
 
-        return view('equipos.show', compact('equipo'));
+    if (request()->wantsJson() || request()->ajax()) {
+        return response()->json($equipo);
     }
+
+    return view('equipos.show', compact('equipo'));
+}
+
+
 
     // Formulario editar
     public function edit($id)

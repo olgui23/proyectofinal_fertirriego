@@ -245,4 +245,6 @@
         }, 60000);
     }); // <-- Este paréntesis estaba faltando
 </script>
+
 @endsection
+
