@@ -6,13 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('productos', function (Blueprint $table) {
-             $table->id();
+            $table->id();
+
+            // 🔹 Relación con usuario que publica o administra el producto
+            $table->foreignId('user_id')
+                  ->constrained('users')
+                  ->onDelete('cascade');
+
+            // 🔹 Información del producto
             $table->string('nombre', 100);
             $table->string('emoji', 5)->nullable();
             $table->string('image_url', 255)->nullable();
@@ -24,15 +28,15 @@ return new class extends Migration
             $table->string('origen', 100)->nullable();
             $table->text('beneficios')->nullable();
             $table->boolean('disponible')->default(true);
+
             $table->timestamps();
+
+            // Índices útiles
             $table->index('disponible');
             $table->index('categoria');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('productos');

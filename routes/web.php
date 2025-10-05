@@ -16,8 +16,34 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\AdminController;
 
+use App\Http\Controllers\ReporteEquipoController;
+
+// Panel de control
+Route::get('/reporte-equipos', [ReporteEquipoController::class, 'index'])->name('reporte_equipos.index');
+
+// Obtener datos de un equipo (AJAX y Arduino)
+Route::get('/reporte-equipos/{equipo}/datos', [ReporteEquipoController::class, 'datos']);
+
+// Ejecutar acción de equipo (AJAX y Arduino)
+Route::post('/reporte-equipos/{equipo}/accion', [ReporteEquipoController::class, 'accion']);
+
+//aqui es lo otro 
 Route::resource('equipos', EquipoController::class);
+
+// CRUD de agricultores solo para admin
+Route::prefix('administrador')->middleware('auth')->group(function () {
+    Route::get('/', [AdminController::class, 'agricultores'])->name('administrador.index');
+    Route::get('/create', [AdminController::class, 'crearAgricultor'])->name('administrador.create');
+    Route::post('/', [AdminController::class, 'guardarAgricultor'])->name('administrador.store');
+    Route::get('/{id}/edit', [AdminController::class, 'editarAgricultor'])->name('administrador.edit');
+    Route::put('/{id}', [AdminController::class, 'actualizarAgricultor'])->name('administrador.update');
+    Route::delete('/{id}', [AdminController::class, 'eliminarAgricultor'])->name('administrador.destroy');
+});
+
+
+
 
 
 Route::middleware(['auth'])->group(function () {

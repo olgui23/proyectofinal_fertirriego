@@ -222,18 +222,22 @@ public function resendVerification(Request $request)
      * Validar datos de registro
      */
     protected function validateRegistration(Request $request): array
-    {
-        return $request->validate([
-            'nombre' => 'required|string|max:100',
-            'apellidos' => 'required|string|max:100',
-            'username' => 'required|string|min:3|max:30|unique:users|regex:/^[a-zA-Z0-9_]+$/',
-            'email' => 'required|email|max:100|unique:users',
-            'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&]/',
-            'fecha_nacimiento' => 'nullable|date|before:-18 years',
-            'genero' => 'nullable|in:masculino,femenino,otro',
-            'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048|dimensions:max_width=2000,max_height=2000',
-        ], $this->validationMessages());
-    }
+{
+    return $request->validate([
+        'nombre' => 'required|string|max:100',
+        'apellidos' => 'required|string|max:100',
+        'username' => 'required|string|min:3|max:30|unique:users|regex:/^[a-zA-Z0-9_]+$/',
+        'email' => 'required|email|max:100|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        'fecha_nacimiento' => 'required|date|before:-18 years', // obligatorio y >18 años
+        'genero' => 'nullable|in:masculino,femenino,otro',
+        'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg|max:2048|dimensions:max_width=2000,max_height=2000',
+    ], [
+        'fecha_nacimiento.before' => 'Debes ser mayor de 18 años para registrarte.',
+        'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+        'password.confirmed' => 'Las contraseñas no coinciden.',
+    ]);
+}
 
     /**
      * Mensajes de validación personalizados
@@ -261,25 +265,24 @@ public function resendVerification(Request $request)
      * Crear nuevo usuario
      */
     protected function createUser(array $data, Request $request): User
-    {
-        $userData = [
-            'nombre' => $data['nombre'],
-            'apellidos' => $data['apellidos'],
-            'fecha_nacimiento' => $data['fecha_nacimiento'], 
-            'genero' => $data['genero'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => $data['password'], // El modelo se encarga del hashing
-            'rol' => "comprador"            
-        ];
+{
+    $userData = [
+        'nombre' => $data['nombre'],
+        'apellidos' => $data['apellidos'],
+        'fecha_nacimiento' => $data['fecha_nacimiento'], // ya validado
+        'genero' => $data['genero'] ?? 'otro',
+        'username' => $data['username'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password']), // siempre hashea la contraseña
+        'rol' => 'agricultor',
+    ];
 
-        if ($request->hasFile('foto_perfil')) {
-            $userData['foto_perfil'] = $request->file('foto_perfil')->store('profile_photos', 'public');
-        }
-
-        return User::create($userData);
+    if ($request->hasFile('foto_perfil')) {
+        $userData['foto_perfil'] = $request->file('foto_perfil')->store('profile_photos', 'public');
     }
 
+    return User::create($userData);
+}
     public function profile()
     {
         $user = auth()->user();

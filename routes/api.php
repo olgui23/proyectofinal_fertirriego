@@ -25,6 +25,11 @@ Route::get('/clima-tiquipaya', function() {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+use App\Http\Controllers\ReporteEquipoController;
+
+Route::post('/reporte-equipo', [ReporteEquipoController::class, 'store']); // desde ESP32
+Route::get('/reporte-equipo/{equipo_id}/datos', [ReporteEquipoController::class, 'datos']); // para gráfica
+
 
 
 

@@ -2,19 +2,94 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function dashboard()
-{
-    // Contar usuarios agrupados por rol
-    $userRoles = User::select('rol', DB::raw('count(*) as total'))
-        ->groupBy('rol')
-        ->pluck('total', 'rol'); // Ej: ['admin' => 3, 'agricultor' => 5, ...]
+    public function agricultores()
+    {
+        $agricultores = User::where('rol', 'agricultor')->paginate(10);
+        return view('administrador.index', compact('agricultores'));
+    }
 
-    return view('dashboard_admin', compact('userRol'));
+    public function crearAgricultor()
+    {
+        return view('administrador.create');
+    }
+
+    public function guardarAgricultor(Request $request)
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'apellidos' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'username' => 'required|string|unique:users,username',
+        'password' => 'required|string|min:6|confirmed',
+        'fecha_nacimiento' => 'required|date|before:-18 years',
+        'genero' => 'nullable|in:masculino,femenino,otro',
+        'foto_perfil' => 'nullable|image|mimes:jpeg,png|max:2048',
+    ]);
+
+    $user = new User();
+    $user->nombre = $request->nombre;
+    $user->apellidos = $request->apellidos;
+    $user->email = $request->email;
+    $user->username = $request->username;
+    $user->password = Hash::make($request->password);
+    $user->rol = 'agricultor';
+    $user->fecha_nacimiento = $request->fecha_nacimiento;
+    $user->genero = $request->genero ?? 'otro';
+
+    if ($request->hasFile('foto_perfil')) {
+        $user->foto_perfil = $request->file('foto_perfil')->store('profile_photos', 'public');
+    }
+
+    $user->save();
+
+    return redirect()->route('administrador.index')->with('success', 'Agricultor registrado correctamente.');
 }
+
+
+    public function editarAgricultor($id)
+    {
+        $agricultor = User::findOrFail($id);
+        return view('administrador.edit', compact('agricultor'));
+    }
+
+    public function actualizarAgricultor(Request $request, $id)
+    {
+        $agricultor = User::findOrFail($id);
+
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'username' => 'required|string|unique:users,username,' . $id,
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+
+        $agricultor->nombre = $request->nombre;
+        $agricultor->apellidos = $request->apellidos;
+        $agricultor->email = $request->email;
+        $agricultor->username = $request->username;
+
+        if ($request->filled('password')) {
+            $agricultor->password = Hash::make($request->password);
+        }
+
+        $agricultor->save();
+
+        return redirect()->route('administrador.index')->with('success', 'Agricultor actualizado correctamente.');
+    }
+
+    public function eliminarAgricultor($id)
+    {
+        $agricultor = User::findOrFail($id);
+        $agricultor->delete();
+
+        return redirect()->route('administrador.index')->with('success', 'Agricultor eliminado correctamente.');
+    }
 }

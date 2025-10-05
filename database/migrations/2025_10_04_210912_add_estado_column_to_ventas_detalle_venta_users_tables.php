@@ -8,9 +8,6 @@ return new class extends Migration
 {
     public function up()
 {
-    Schema::table('ventas', function (Blueprint $table) {
-        $table->boolean('estado')->default(1); // 👈 sin ->after()
-    });
 
     Schema::table('detalle_venta', function (Blueprint $table) {
         $table->boolean('estado')->default(1);
