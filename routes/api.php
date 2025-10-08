@@ -2,36 +2,35 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReporteEquipoController;
+use App\Services\WeatherService;
+use App\Http\Controllers\Api\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| Aquí se registran las rutas públicas para dispositivos (Arduino/ESP32)
+| y otras APIs. Estas rutas no requieren autenticación.
 |
 */
-use App\Services\WeatherService;
-use App\Http\Controllers\Api\ProductoController;    
-Route::get('/productos/{id}', [ProductoController::class, 'show']);
 
+// Rutas de productos y clima
+Route::get('/productos/{id}', [ProductoController::class, 'show']);
 Route::get('/clima-tiquipaya', function() {
     return (new WeatherService())->getWeather();
 });
 
+// RUTAS PARA ARDUINO (ESP32)
 
+// 1. Arduino envía MAC + humedad
+Route::post('/arduino/reporte', [ReporteEquipoController::class, 'registroDesdeArduino']); 
+
+// 2. Obtener datos históricos y último reporte para un equipo (web o Arduino si quieres leer)
+Route::get('/reporte-equipo/{equipo_id}/datos', [ReporteEquipoController::class, 'datos']); 
+
+// Ruta opcional protegida para obtener info del usuario (requiere auth con Sanctum)
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-use App\Http\Controllers\ReporteEquipoController;
-
-Route::post('/reporte-equipo', [ReporteEquipoController::class, 'store']); // desde ESP32
-Route::get('/reporte-equipo/{equipo_id}/datos', [ReporteEquipoController::class, 'datos']); // para gráfica
-
-
-
-
-
-
