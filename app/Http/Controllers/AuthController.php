@@ -274,7 +274,7 @@ public function resendVerification(Request $request)
         'username' => $data['username'],
         'email' => $data['email'],
         'password' => bcrypt($data['password']), // siempre hashea la contraseña
-        'rol' => 'agricultor',
+        'rol' => 'comprador',
     ];
 
     if ($request->hasFile('foto_perfil')) {
