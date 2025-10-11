@@ -17,6 +17,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PerfilController;
 
 use App\Http\Controllers\ReporteEquipoController;
 
@@ -42,8 +43,12 @@ Route::prefix('administrador')->middleware('auth')->group(function () {
     Route::delete('/{id}', [AdminController::class, 'eliminarAgricultor'])->name('administrador.destroy');
 });
 
-
-
+// Perfil (editable)
+   // 🔒 Perfil (solo usuarios autenticados)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil', [PerfilController::class, 'edit'])->name('perfil.edit');
+    Route::put('/perfil', [PerfilController::class, 'update'])->name('perfil.update');
+});
 
 
 Route::middleware(['auth'])->group(function () {

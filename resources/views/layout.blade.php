@@ -103,7 +103,7 @@
                                 <small class="text-muted small"><i class="fas fa-user-circle me-1"></i> {{ Auth::user()->nombre }} ({{ Auth::user()->rol }})</small>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-1"></i> Mi Perfil</a></li>
+                                <li><a class="dropdown-item" href="{{ route('perfil.edit') }}"><i class="fas fa-user me-1"></i> Mi Perfil</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
