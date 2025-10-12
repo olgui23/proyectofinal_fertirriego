@@ -43,11 +43,10 @@
                 <div class="col-md-6">
                     <label class="form-label">Fecha de Nacimiento</label>
                     <input type="date" name="fecha_nacimiento" 
-       class="form-control @error('fecha_nacimiento') is-invalid @enderror" 
-       value="{{ old('fecha_nacimiento') }}" 
-       max="{{ now()->subYears(18)->format('Y-m-d') }}"
-       required>
-
+                           class="form-control @error('fecha_nacimiento') is-invalid @enderror" 
+                           value="{{ old('fecha_nacimiento') }}" 
+                           max="{{ now()->subYears(18)->format('Y-m-d') }}"
+                           required>
                     @error('fecha_nacimiento')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
@@ -94,14 +93,36 @@
             </div>
 
             <div class="row g-3 mt-3">
-                <div class="col-md-6">
+                <!-- Contraseña -->
+                <div class="col-md-6 position-relative">
                     <label class="form-label">Contraseña</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <div class="input-group">
+                        <input type="password" 
+                               name="password" 
+                               id="password" 
+                               class="form-control" 
+                               value="{{ $defaultPassword ?? '' }}" 
+                               required>
+                        <button type="button" class="btn btn-outline-secondary" id="togglePassword" style="border-color: #64A500;">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="col-md-6">
+                <!-- Confirmar Contraseña -->
+                <div class="col-md-6 position-relative">
                     <label class="form-label">Confirmar Contraseña</label>
-                    <input type="password" name="password_confirmation" class="form-control" required>
+                    <div class="input-group">
+                        <input type="password" 
+                               name="password_confirmation" 
+                               id="password_confirmation" 
+                               class="form-control" 
+                               value="{{ $defaultPassword ?? '' }}" 
+                               required>
+                        <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword" style="border-color: #64A500;">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -125,4 +146,30 @@
         border-color: #64A500;
     }
 </style>
+
+<!-- Script para mostrar/ocultar contraseña -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const passwordInput = document.getElementById("password");
+    const confirmInput = document.getElementById("password_confirmation");
+    const togglePassword = document.getElementById("togglePassword");
+    const toggleConfirm = document.getElementById("toggleConfirmPassword");
+
+    togglePassword.addEventListener("click", () => {
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
+        togglePassword.innerHTML = type === "password" 
+            ? '<i class="fas fa-eye"></i>' 
+            : '<i class="fas fa-eye-slash"></i>';
+    });
+
+    toggleConfirm.addEventListener("click", () => {
+        const type = confirmInput.getAttribute("type") === "password" ? "text" : "password";
+        confirmInput.setAttribute("type", type);
+        toggleConfirm.innerHTML = type === "password" 
+            ? '<i class="fas fa-eye"></i>' 
+            : '<i class="fas fa-eye-slash"></i>';
+    });
+});
+</script>
 @endsection

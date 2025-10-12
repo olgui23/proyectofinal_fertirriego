@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AgricultorBienvenidaMail;
 
 
 class AdminController extends Controller
@@ -18,9 +20,11 @@ class AdminController extends Controller
     }
 
     public function crearAgricultor()
-    {
-        return view('administrador.create');
-    }
+{
+    $defaultPassword = 'cambiar123'; // contraseña por defecto
+    return view('administrador.create', compact('defaultPassword'));
+}
+
 
     public function guardarAgricultor(Request $request)
 {
@@ -29,18 +33,20 @@ class AdminController extends Controller
         'apellidos' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         'username' => 'required|string|unique:users,username',
-        'password' => 'required|string|min:6|confirmed',
         'fecha_nacimiento' => 'required|date|before:-18 years',
         'genero' => 'nullable|in:masculino,femenino,otro',
         'foto_perfil' => 'nullable|image|mimes:jpeg,png|max:2048',
     ]);
+
+    // Contraseña por defecto
+    $passwordTemporal = '12345678'; // puedes cambiarla o generarla aleatoria
 
     $user = new User();
     $user->nombre = $request->nombre;
     $user->apellidos = $request->apellidos;
     $user->email = $request->email;
     $user->username = $request->username;
-    $user->password = Hash::make($request->password);
+    $user->password = Hash::make($passwordTemporal);
     $user->rol = 'agricultor';
     $user->fecha_nacimiento = $request->fecha_nacimiento;
     $user->genero = $request->genero ?? 'otro';
@@ -51,9 +57,12 @@ class AdminController extends Controller
 
     $user->save();
 
-    return redirect()->route('administrador.index')->with('success', 'Agricultor registrado correctamente.');
-}
+    // Enviar correo de bienvenida con contraseña temporal
+    Mail::to($user->email)->send(new AgricultorBienvenidaMail($user, $passwordTemporal));
 
+    return redirect()->route('administrador.index')
+                     ->with('success', 'Agricultor registrado correctamente. Se envió un correo con sus datos de acceso.');
+}
 
     public function editarAgricultor($id)
     {

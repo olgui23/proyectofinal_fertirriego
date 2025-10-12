@@ -9,11 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-    public function index()
-    {
-        $productos = Producto::all();
-        return view('productos.index', compact('productos'));
-    }
+   public function index()
+{
+    // Solo traer los productos disponibles
+    $productos = Producto::where('disponible', 1)->get();
+
+    return view('productos.index', compact('productos'));
+}
+
 
     public function crear()
     {

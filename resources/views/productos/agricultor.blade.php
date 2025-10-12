@@ -43,7 +43,7 @@
                                 @endif
                             </td>
                             <td>{{ $producto->nombre }}</td>
-                            <td>S/. {{ number_format($producto->precio, 2) }}</td>
+                            <td>Bs. {{ number_format($producto->precio, 2) }}</td>
                             <td>{{ $producto->stock }} {{ $producto->unidad }}</td>
                             <td>
                                 @if($producto->disponible)
