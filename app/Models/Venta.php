@@ -41,6 +41,10 @@ class Venta extends Model
     {
         return $this->hasMany(DetalleVenta::class);
     }
-    
+    public function agricultor()
+{
+    return $this->belongsTo(User::class, 'agricultor_id');
+}
+
     
 }

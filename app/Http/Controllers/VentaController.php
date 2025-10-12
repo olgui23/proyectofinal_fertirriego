@@ -153,11 +153,11 @@ public function rechazar($id)
 
 
 
-    public function show($id)
-    {
-        $venta = Venta::with(['user', 'detalles.producto'])->findOrFail($id);
-        return view('productos.detalleventa', compact('venta'));
-    }
+   // public function show($id)
+    //{
+      //  $venta = Venta::with(['user', 'detalles.producto'])->findOrFail($id);
+        //return view('productos.detalleventa', compact('venta'));
+   // }
 
     public function pdf($id)
     {
@@ -165,4 +165,32 @@ public function rechazar($id)
         $pdf = PDF::loadView('productos.comprobantepdf', compact('venta'));
         return $pdf->stream("comprobante_venta_{$venta->id}.pdf");
     }
+
+    public function misCompras()
+{
+    $user = Auth::user();
+
+    // Filtramos las ventas del comprador logueado
+    $ventas = Venta::with(['detalles.producto'])
+        ->where('user_id', $user->id)
+        ->latest()
+        ->get();
+
+    return view('productos.miscompras', compact('ventas'));
+}
+public function show($id)
+{
+    $venta = Venta::with(['detalles.producto', 'agricultor'])->findOrFail($id);
+
+    if(request()->ajax()) {
+        return view('productos.detalleventa_modal', compact('venta'));
+    }
+
+    return view('productos.detalleventa', compact('venta'));
+}
+
+
+
+
+
 }

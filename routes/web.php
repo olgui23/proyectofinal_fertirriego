@@ -236,3 +236,11 @@ Route::get('/administrador/agricultores/pdf-download', [AdminController::class, 
 // DESCARGAR PDF DE EQUIPOS
 Route::get('/equipos/pdf-view', [EquipoController::class, 'viewPdf'])->name('equipos.pdf-view');
 Route::get('/equipos/pdf-download', [EquipoController::class, 'downloadPdf'])->name('equipos.pdf-download');
+
+// 🛍️ Ver mis compras (solo comprador)
+Route::middleware(['auth', 'rol:comprador'])->group(function () {
+    Route::get('/mis-compras', [VentaController::class, 'misCompras'])->name('ventas.miscompras');
+    // Mostrar detalle de una compra específica
+Route::get('/ventas/{id}', [VentaController::class, 'show'])->name('ventas.show');
+
+});

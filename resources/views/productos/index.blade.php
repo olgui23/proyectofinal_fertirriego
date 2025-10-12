@@ -29,7 +29,12 @@
 @endif
 
 <div class="container my-5">
-    
+    <div class="text-center mt-3">
+    <a href="{{ route('ventas.miscompras') }}" class="btn btn-outline-success rounded-pill px-4">
+        <i class="bi bi-bag-check"></i> Ver mis compras
+    </a>
+</div>
+
     <!-- Buscador y orden -->
     <!-- Buscador y filtro en una sola fila -->
 <div class="search-filter-row mb-4">
