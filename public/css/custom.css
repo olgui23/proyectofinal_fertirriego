@@ -718,5 +718,43 @@ footer {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+/* ==============================
+   Animaciones generales (hover)
+   ============================== */
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones con efecto hover */
+.btn-green {
+    background-color: #27ae60;
+    color: #fff;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-green:hover {
+    background-color: #2ecc71;
+    transform: scale(1.05);
+}
+
+/* Tarjetas informativas */
+.card-status {
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-status:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
 
 

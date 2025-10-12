@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Equipo;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class EquipoController extends Controller
 {
@@ -87,5 +88,27 @@ public function show($id)
         $equipo->delete();
 
         return redirect()->route('equipos.index')->with('success', 'Equipo eliminado');
+    }
+
+    // Vista con PDF embebido
+    public function viewPdf()
+    {
+        $equipos = Equipo::with('user')->get();
+
+        $pdf = Pdf::loadView('equipos.equipos_pdf', compact('equipos'));
+
+        $pdfContent = base64_encode($pdf->output());
+
+        return view('equipos.equipos_pdf_view', compact('pdfContent'));
+    }
+
+    // Descarga directa del PDF
+    public function downloadPdf()
+    {
+        $equipos = Equipo::with('user')->get();
+
+        $pdf = Pdf::loadView('equipos.equipos_pdf', compact('equipos'));
+
+        return $pdf->download('equipos.pdf');
     }
 }

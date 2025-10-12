@@ -20,7 +20,7 @@ class ProductoController extends Controller
         return view('productos.crear');
     }
 
-    public function guardar(Request $request)
+  public function guardar(Request $request)
 {
     $request->validate([
         'nombre' => 'required|string|max:100',
@@ -36,19 +36,15 @@ class ProductoController extends Controller
 
     $data = $request->all();
 
-    // Subir imagen si existe
+    // ✅ Subir imagen a storage/app/public/productos
     if ($request->hasFile('image_url')) {
         $path = $request->file('image_url')->store('productos', 'public');
-        $data['image_url'] = 'storage/' . $path;
+        $data['image_url'] = 'storage/' . $path;  // Para usar con asset()
     }
 
-    // ✅ Agregar el ID del usuario autenticado
     $data['user_id'] = auth()->id();
-
-    // ✅ Asegurar el checkbox de disponibilidad
     $data['disponible'] = $request->has('disponible');
 
-    // Crear el producto
     Producto::create($data);
 
     return redirect()->route('productos.agricultor')->with('success', 'Producto agregado correctamente.');

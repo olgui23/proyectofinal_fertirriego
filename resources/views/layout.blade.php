@@ -24,6 +24,7 @@
     <link href="{{ asset('startbootstrap-agency-gh-pages/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
     
+    
 </head>
 <body id="page-top">
     <!-- Navigation -->
@@ -151,6 +152,7 @@
 
     <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="{{ asset('startbootstrap-agency-gh-pages/js/scripts.js') }}"></script>
 @stack('scripts')
 </body>

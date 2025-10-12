@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReporteEquipoController;
 use App\Services\WeatherService;
 use App\Http\Controllers\Api\ProductoController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::post('/arduino/reporte', [ReporteEquipoController::class, 'registroDesdeA
 
 // 2. Obtener datos históricos y último reporte para un equipo (web o Arduino si quieres leer)
 Route::get('/reporte-equipo/{equipo_id}/datos', [ReporteEquipoController::class, 'datos']); 
+ 
+// 3. Para graficos de dashboard admin
+Route::get('/user-roles', [AdminController::class, 'userRolesData'])->name('api.userRoles');
+
 
 // Ruta opcional protegida para obtener info del usuario (requiere auth con Sanctum)
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

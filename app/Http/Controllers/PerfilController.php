@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class PerfilController extends Controller
 {
@@ -13,17 +15,16 @@ class PerfilController extends Controller
      * Mostrar formulario de edición de perfil.
      */
     public function edit()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    // Asegurar formato correcto para el input type="date"
-    if ($user->fecha_nacimiento) {
-        $user->fecha_nacimiento = \Carbon\Carbon::parse($user->fecha_nacimiento)->format('Y-m-d');
+        // Asegurar formato correcto para el input type="date"
+        if ($user->fecha_nacimiento) {
+            $user->fecha_nacimiento = \Carbon\Carbon::parse($user->fecha_nacimiento)->format('Y-m-d');
+        }
+
+        return view('perfil.edit', compact('user'));
     }
-
-    return view('perfil.edit', compact('user'));
-}
-
 
     /**
      * Guardar cambios del perfil.
@@ -66,10 +67,24 @@ class PerfilController extends Controller
             $path = $request->file('foto_perfil')->store('fotos_perfil', 'public');
             $user->foto_perfil = $path;
         }
-/** @var \App\Models\User $user */
+
+        /** @var \App\Models\User $user */
         $user->save();
 
-        return redirect()->route('farm.dashboard')->with('success', 'Tu perfil fue actualizado correctamente 🎉');
+        // Obtener la ruta de dashboard según el rol
+        $rol = $user->rol;
 
+        $dashboardRoute = match ($rol) {
+            'administrador' => route('admin.dashboard'),
+            'agricultor'    => route('farm.dashboard'),
+            'comprador'     => route('buyer.dashboard'),
+            default         => route('dashboard'),
+        };
+
+        // Redirigir a la misma vista con success + ruta del dashboard en la sesión
+        return redirect()
+            ->route('perfil.edit')
+            ->with('success', 'Tu perfil fue actualizado correctamente 🎉')
+            ->with('dashboard_redirect', $dashboardRoute);
     }
 }

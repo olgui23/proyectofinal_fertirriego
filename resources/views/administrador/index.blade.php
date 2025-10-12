@@ -14,10 +14,15 @@
 
         <!-- Botón registrar -->
         <div class="text-end mb-3">
-            <a href="{{ route('administrador.create') }}" class="btn btn-success">
-                <i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Agricultor
-            </a>
-        </div>
+    <a href="{{ route('administrador.create') }}" class="btn btn-success">
+        <i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Agricultor
+    </a>
+
+    <a href="{{ route('administrador.agricultores.pdf-view') }}" class="btn btn-outline-success ms-2">
+        <i class="fas fa-file-pdf me-2"></i>Ver PDF Agricultores
+    </a>
+</div>
+
 
         <!-- Alertas -->
         @if(session('success'))

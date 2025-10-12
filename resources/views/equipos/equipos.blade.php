@@ -13,10 +13,15 @@
 
         <!-- Botón registrar -->
         <div class="text-end mb-3">
-            <a href="{{ route('equipos.create') }}" class="btn btn-success">
-                <i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Equipo
-            </a>
-        </div>
+    <a href="{{ route('equipos.create') }}" class="btn btn-success">
+        <i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Equipo
+    </a>
+
+    <a href="{{ route('equipos.pdf-view') }}" class="btn btn-outline-success ms-2">
+        <i class="fas fa-file-pdf me-2"></i>Ver PDF Equipos
+    </a>
+</div>
+
 
         <!-- Alertas -->
         @if(session('success'))

@@ -224,3 +224,15 @@ Route::fallback(function () {
         ? redirect()->route('dashboard')
         : redirect()->route('login');
 });
+Route::get('/api/user-roles', [App\Http\Controllers\AdminController::class, 'userRolesData']);
+ // RUTAS PARA PDF AGRICULTORES
+ Route::get('administrador/agricultores/pdf', [App\Http\Controllers\AdminController::class, 'exportPdf'])->name('administrador.agricultores.pdf');
+// Mostrar vista con PDF embebido
+Route::get('/administrador/agricultores/pdf-view', [AdminController::class, 'viewPdf'])->name('administrador.agricultores.pdf-view');
+
+// Descargar PDF directamente
+Route::get('/administrador/agricultores/pdf-download', [AdminController::class, 'downloadPdf'])->name('administrador.agricultores.pdf-download');
+
+// DESCARGAR PDF DE EQUIPOS
+Route::get('/equipos/pdf-view', [EquipoController::class, 'viewPdf'])->name('equipos.pdf-view');
+Route::get('/equipos/pdf-download', [EquipoController::class, 'downloadPdf'])->name('equipos.pdf-download');

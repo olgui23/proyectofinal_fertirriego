@@ -54,7 +54,8 @@
     @forelse($productos as $producto)
         <div class="col-md-4 product-card" data-category="{{ Str::slug($producto->categoria) }}">
             <div class="card h-100 shadow-sm position-relative">
-                <img src="{{ asset($producto->image_url ?? 'storage/productos/default.jpg') }}" class="card-img-top" alt="{{ $producto->nombre }}">
+                <img src="{{ asset('storage/productos/' . basename($producto->image_url)) }}" alt="Producto">
+
 
                 {{-- Badge de disponibilidad --}}
                 @if($producto->disponible)

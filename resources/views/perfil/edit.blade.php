@@ -145,71 +145,37 @@
 </div>
 <!-- Modal de confirmación -->
 <div class="modal fade" id="guardadoModal" tabindex="-1" aria-labelledby="guardadoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 shadow">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="guardadoModalLabel">¡Cambios guardados!</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body text-center">
-                <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
-                <p>Tu perfil se actualizó correctamente 🌿</p>
-            </div>
-        </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="guardadoModalLabel">¡Cambios guardados!</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+        <p>Tu perfil se actualizó correctamente 🌿</p>
+      </div>
     </div>
+  </div>
 </div>
 
+
 @endsection
+@if(session('success'))
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = new bootstrap.Modal(document.getElementById('guardadoModal'));
+            modal.show();
 
-@section('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
-    const modal = new bootstrap.Modal(document.getElementById('guardadoModal'));
+            // Ruta de redirección dinámica desde sesión (con fallback a /dashboard)
+            const redirectTo = @json(session('dashboard_redirect', '/dashboard'));
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-        const submitButton = document.getElementById('btnGuardar');
-        
-        // Cambiar texto del botón para indicar carga
-        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...';
-        submitButton.disabled = true;
-
-        fetch(form.action, {
-            method: 'POST', // Laravel simula PUT con POST
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la respuesta del servidor');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                modal.show();
-                setTimeout(() => {
-                    window.location.href = data.redirect_url || '/dashboard';
-                }, 2500);
-            } else {
-                throw new Error(data.message || 'Error al guardar');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("Ocurrió un error al guardar los cambios: " + error.message);
-            
-            // Restaurar botón
-            submitButton.innerHTML = 'Guardar cambios';
-            submitButton.disabled = false;
+            setTimeout(() => {
+                window.location.href = redirectTo;
+            }, 2500);
         });
-    });
-});
-</script>
-@endsection
+    </script>
+    @endpush
+@endif
+

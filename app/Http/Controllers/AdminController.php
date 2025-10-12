@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class AdminController extends Controller
 {
@@ -92,4 +94,47 @@ class AdminController extends Controller
 
         return redirect()->route('administrador.index')->with('success', 'Agricultor eliminado correctamente.');
     }
+    public function userRolesData()
+    {
+    $roles = \App\Models\User::select('rol', DB::raw('count(*) as total'))
+                ->groupBy('rol')
+                ->pluck('total', 'rol');
+
+    return response()->json([
+        'roles' => $roles->keys(),
+        'counts' => $roles->values()
+    ]);
+    }
+
+  public function exportPdf()
+{
+    // Traer solo usuarios con rol 'agricultor' (ajusta la condición según tu DB)
+    $agricultores = User::where('rol', 'agricultor')->get();
+
+    $pdf = Pdf::loadView('administrador.agricultores_pdf', compact('agricultores'));
+
+    return $pdf->download('agricultores.pdf');
+}
+
+ public function viewPdf()
+{
+    $agricultores = User::where('rol', 'agricultor')->get(); // ajusta según tu filtro
+
+    $pdf = Pdf::loadView('administrador.agricultores_pdf', compact('agricultores'));
+
+    // Generar contenido PDF como base64 para mostrar inline
+    $pdfContent = base64_encode($pdf->output());
+
+    return view('administrador.agricultores_pdf_view', compact('pdfContent'));
+}
+
+public function downloadPdf()
+{
+    $agricultores = User::where('rol', 'agricultor')->get();
+
+    $pdf = Pdf::loadView('administrador.agricultores_pdf', compact('agricultores'));
+
+    return $pdf->download('agricultores.pdf');
+}
+
 }

@@ -104,7 +104,7 @@
 
     <div class="row">
         <!-- Gráfico de usuarios por rol -->
-        <div class="col-xl-8 col-lg-7">
+            <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Distribución de Usuarios por Rol</h6>
@@ -116,6 +116,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Acciones rápidas -->
         <div class="col-xl-4 col-lg-5">
@@ -189,62 +190,71 @@
 </div>
 @endsection
 
-@section('scripts')
+
+@stack('scripts')
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Gráfico de distribución de usuarios por rol
-        const ctx = document.getElementById('userRoleChart').getContext('2d');
-        const userRoleChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Administradores', 'Agricultores', 'Compradores'],
-                datasets: [{
-                    label: 'Cantidad de Usuarios',
-                    data: [{ $adminCount }, { $farmersCount }, { $buyersCount }],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleccionamos el canvas y le damos altura explícita
+    const ctx = document.getElementById('userRoleChart');
+    ctx.style.height = '400px'; // altura del gráfico
+
+    fetch('/api/user-roles')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Datos del gráfico:', data); // Depuración
+
+            const roles = data.roles.map(rol => rol.charAt(0).toUpperCase() + rol.slice(1));
+            const counts = data.counts;
+
+            // Crear gráfico
+            new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: roles,
+                    datasets: [{
+                        label: 'Cantidad de usuarios',
+                        data: counts,
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(255, 206, 86, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // importante para que use la altura definida
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Usuarios por Rol',
+                            font: { size: 18, family: 'Poppins' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
                         }
                     }
                 }
-            }
-        }); // <-- Este paréntesis estaba faltando
-
-        // Actualizar datos cada 60 segundos
-        setInterval(() => {
-            fetch('{{ route("admin.dashboard.stats") }}')
-                .then(response => response.json())
-                .then(data => {
-                    userRoleChart.data.datasets[0].data = [
-                        data.admin_count,
-                        data.farmers_count,
-                        data.buyers_count
-                    ];
-                    userRoleChart.update();
-                });
-        }, 60000);
-    }); // <-- Este paréntesis estaba faltando
+            });
+        })
+        .catch(error => console.error('Error cargando gráfico:', error));
+});
 </script>
+@push('scripts')
 
-@endsection
+
+
 
