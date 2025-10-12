@@ -30,30 +30,36 @@ class EquipoController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'mac' => 'required|unique:equipos,mac',
+            'mac' => [
+                'required',
+                'unique:equipos,mac',
+                // Validación de formato MAC (AA:BB:CC:DD:EE:FF o AA-BB-CC-DD-EE-FF)
+                'regex:/^([0-9A-Fa-f]{2}([-:])){5}[0-9A-Fa-f]{2}$/'
+            ],
             'fecha_instalacion' => 'required|date|before_or_equal:today',
+        ], [
+            'mac.regex' => 'El formato de la dirección MAC no es válido. Ejemplo correcto: AA:BB:CC:DD:EE:FF',
+            'mac.unique' => 'Esta dirección MAC ya está registrada.',
+            'user_id.required' => 'Debe seleccionar un usuario.',
+            'fecha_instalacion.before_or_equal' => 'La fecha no puede ser futura.',
         ]);
 
         Equipo::create($request->all());
 
-        return redirect()->route('equipos.index')->with('success', 'Equipo registrado correctamente');
+        return redirect()->route('equipos.index')->with('success', '✅ Equipo registrado correctamente');
     }
 
     // Mostrar un equipo
-    // EquipoController.php
+    public function show($id)
+    {
+        $equipo = Equipo::with('user')->findOrFail($id);
 
-public function show($id)
-{
-    $equipo = Equipo::with('user')->findOrFail($id);
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json($equipo);
+        }
 
-    if (request()->wantsJson() || request()->ajax()) {
-        return response()->json($equipo);
+        return view('equipos.show', compact('equipo'));
     }
-
-    return view('equipos.show', compact('equipo'));
-}
-
-
 
     // Formulario editar
     public function edit($id)
@@ -72,13 +78,21 @@ public function show($id)
         $equipo = Equipo::findOrFail($id);
 
         $request->validate([
-            'mac' => 'required|unique:equipos,mac,' . $equipo->id,
+            'mac' => [
+                'required',
+                'unique:equipos,mac,' . $equipo->id,
+                'regex:/^([0-9A-Fa-f]{2}([-:])){5}[0-9A-Fa-f]{2}$/'
+            ],
             'fecha_instalacion' => 'required|date|before_or_equal:today',
+        ], [
+            'mac.regex' => 'El formato de la dirección MAC no es válido. Ejemplo correcto: AA:BB:CC:DD:EE:FF',
+            'mac.unique' => 'Esta dirección MAC ya está registrada.',
+            'fecha_instalacion.before_or_equal' => 'La fecha no puede ser futura.',
         ]);
 
         $equipo->update($request->all());
 
-        return redirect()->route('equipos.index')->with('success', 'Equipo actualizado');
+        return redirect()->route('equipos.index')->with('success', '✅ Equipo actualizado correctamente');
     }
 
     // Eliminar equipo
@@ -87,7 +101,7 @@ public function show($id)
         $equipo = Equipo::findOrFail($id);
         $equipo->delete();
 
-        return redirect()->route('equipos.index')->with('success', 'Equipo eliminado');
+        return redirect()->route('equipos.index')->with('success', '🗑️ Equipo eliminado correctamente');
     }
 
     // Vista con PDF embebido
