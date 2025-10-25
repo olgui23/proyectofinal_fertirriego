@@ -43,6 +43,27 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
                     <!-- <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Inicio</a></li> -->
+                    <!-- Barra superior de navegación con login/register -->
+@if (Route::has('login'))
+    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-50">
+        <ul class="nav justify-content-end">
+            @auth
+               
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
+                    </li>
+                @endif
+            @endauth
+        </ul>
+    </div>
+@endif
+
+
                     <!-- Menú según rol -->
                      @auth
                         @if(Auth::user()->rol === 'administrador')
@@ -152,7 +173,6 @@
 
     <!-- JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="{{ asset('startbootstrap-agency-gh-pages/js/scripts.js') }}"></script>
 @stack('scripts')
 </body>

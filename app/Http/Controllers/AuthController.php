@@ -23,9 +23,10 @@ class AuthController extends Controller
 
     // Mostrar formulario de login
     public function showHome()
-    {
-        return view('welcome');
-    }
+{
+    return view('inicio'); // ← Aquí cargas la vista que hiciste
+}
+
    
    
     public function showLoginForm()
