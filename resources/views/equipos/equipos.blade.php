@@ -38,7 +38,7 @@
                         <h5 class="card-title">
                             <i class="fas fa-microchip me-2"></i>MAC: {{ $equipo->mac }}
                         </h5>
-                        <p class="mb-2"><strong>Usuario:</strong> {{ optional($equipo->user)->name ?? 'N/A' }}</p>
+                        <p class="mb-2"><strong>Usuario:</strong> {{ optional($equipo->user)->nombre_completo ?? 'N/A' }}</p>
                         <p><strong>Ubicación:</strong> {{ $equipo->ubicacion ?? 'No especificada' }}</p>
 
                         <ul class="list-unstyled small mb-3">

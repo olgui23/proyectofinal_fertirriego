@@ -174,6 +174,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/ventas/{id}/aprobar', [VentaController::class, 'aprobar'])->name('ventas.aprobar');
     Route::post('/ventas/{id}/rechazar', [VentaController::class, 'rechazar'])->name('ventas.rechazar');
     Route::get('/ventas/{id}/pdf', [App\Http\Controllers\VentaController::class, 'pdf'])->name('ventas.pdf');
+    Route::get('/ventas/reporte', [VentaController::class, 'reporte'])->name('ventas.reporte');
 
 
 Route::middleware(['auth', 'rol:agricultor'])->group(function () {

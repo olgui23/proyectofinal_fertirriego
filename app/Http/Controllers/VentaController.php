@@ -189,6 +189,27 @@ public function show($id)
     return view('productos.detalleventa', compact('venta'));
 }
 
+public function reporte(Request $request)
+{
+    $query = Venta::query()->with(['user', 'detalles.producto']);
+
+    if ($request->filled('fecha_inicio')) {
+        $query->whereDate('fecha_venta', '>=', $request->fecha_inicio);
+    }
+
+    if ($request->filled('fecha_fin')) {
+        $query->whereDate('fecha_venta', '<=', $request->fecha_fin);
+    }
+
+    if ($request->filled('estado')) {
+        $query->where('estado_venta', $request->estado);
+    }
+
+    $ventas = $query->get();
+
+    $pdf = PDF::loadView('ventas.reporte', compact('ventas'));
+    return $pdf->stream('reporte_ventas.pdf');
+}
 
 
 

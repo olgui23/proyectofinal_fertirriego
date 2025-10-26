@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin-products.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
 @endpush
-
+<div class="container py-5">
+    <div class="main-content-container">
+    
 @section('cabecera')
 <section class="page-hero products-hero bg-light py-5" style="margin-top: 80px;">
     <div class="container text-center">
@@ -136,6 +137,8 @@
       </div>
     </div>
   </div>
+</div>
+</div>
 </div>
 </div>
 @include('productos.checkout-modal')
@@ -464,6 +467,8 @@ function vaciarCarrito() {
   localStorage.removeItem('carrito_user_id');
   actualizarContadorCarrito();
 }
+
+
 
 </script>
 @endpush

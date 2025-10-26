@@ -107,7 +107,7 @@
         </div>
 
         <div class="info">
-            <p><strong>Cliente:</strong> {{ $venta->user->name ?? 'Cliente' }}</p>
+            <p><strong>Cliente:</strong> {{ $venta->user->nombre_completo ?? 'N/A' }}</p>
             <p><strong>Teléfono:</strong> {{ $venta->telefono_contacto }}</p>
             <p><strong>Fecha:</strong> {{ $venta->fecha_venta->format('d/m/Y H:i') }}</p>
             <p><strong>Tipo de Entrega:</strong> {{ ucfirst($venta->tipo_entrega) }}</p>
