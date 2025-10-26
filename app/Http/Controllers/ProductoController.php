@@ -9,13 +9,45 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-   public function index()
+ public function index(Request $request)
 {
-    // Solo traer los productos disponibles
-    $productos = Producto::where('disponible', 1)->get();
+    $query = Producto::query()->where('disponible', 1);
+
+    // 🔍 FILTRO DE BÚSQUEDA
+    if ($request->filled('search')) {
+        $search = $request->input('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('nombre', 'like', "%{$search}%")
+              ->orWhere('descripcion', 'like', "%{$search}%")
+              ->orWhere('categoria', 'like', "%{$search}%")
+              ->orWhere('origen', 'like', "%{$search}%");
+        });
+    }
+
+    // 🔄 ORDENAMIENTO
+    if ($request->filled('sort')) {
+        switch ($request->input('sort')) {
+            case 'name':
+                $query->orderBy('nombre', 'asc');
+                break;
+            case 'price-low':
+                $query->orderBy('precio', 'asc');
+                break;
+            case 'price-high':
+                $query->orderBy('precio', 'desc');
+                break;
+            case 'stock':
+                $query->orderBy('stock', 'desc');
+                break;
+        }
+    }
+
+    // 📄 PAGINACIÓN (opcional)
+    $productos = $query->paginate(9)->appends($request->query());
 
     return view('productos.index', compact('productos'));
 }
+
 
 
     public function crear()

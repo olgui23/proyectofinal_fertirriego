@@ -11,7 +11,7 @@
     <div class="main-content-container">
     
 @section('cabecera')
-<section class="page-hero products-hero bg-light py-5" style="margin-top: 80px;">
+<section class="page-hero products-hero bg-light py-5" >
     <div class="container text-center">
         <h1 class="display-4 fw-bold">Nuestros Productos</h1>
         <p class="lead">Elige entre las hortalizas más frescas y saludables, directo del campo a tu mesa</p>
@@ -29,31 +29,37 @@
     </div>
 @endif
 
-<div class="container my-5">
-    <div class="text-center mt-3">
-    <a href="{{ route('ventas.miscompras') }}" class="btn btn-outline-success rounded-pill px-4">
-        <i class="bi bi-bag-check"></i> Ver mis compras
-    </a>
-</div>
-
-    <!-- Buscador y orden -->
-    <!-- Buscador y filtro en una sola fila -->
-<div class="search-filter-row mb-4">
-    <div class="search-box">
+    <!-- Buscador y filtro -->
+<form action="{{ route('productos.index') }}" method="GET" class="search-filter-row mb-4 d-flex gap-2">
+    <div class="search-box flex-grow-1">
         <div class="input-group">
-            <input type="text" id="searchInput" class="form-control" placeholder="Buscar producto...">
+            <input 
+                type="text" 
+                name="search" 
+                id="searchInput"
+                value="{{ request('search') }}" 
+                class="form-control" 
+                placeholder="Buscar producto..."
+            >
             <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
     </div>
+
     <div class="filter-box">
-        <select id="sortSelect" class="form-select">
-            <option value="name">Nombre</option>
-            <option value="price-low">Precio: Menor a Mayor</option>
-            <option value="price-high">Precio: Mayor a Menor</option>
-            <option value="stock">Stock</option>
+        <select name="sort" id="sortSelect" class="form-select" onchange="this.form.submit()">
+            <option value="">Ordenar por...</option>
+            <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Nombre</option>
+            <option value="price-low" {{ request('sort') == 'price-low' ? 'selected' : '' }}>Precio: Menor a Mayor</option>
+            <option value="price-high" {{ request('sort') == 'price-high' ? 'selected' : '' }}>Precio: Mayor a Menor</option>
+            <option value="stock" {{ request('sort') == 'stock' ? 'selected' : '' }}>Stock</option>
         </select>
     </div>
-</div>
+
+    <button type="submit" class="btn btn-success ms-2">
+        <i class="fas fa-filter"></i> Buscar
+    </button>
+</form>
+
 
    <!-- Productos -->
 <div id="productsGrid" class="row g-4">

@@ -116,6 +116,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('buyer.dashboard') }}">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('asistente') }}">Asistente</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('productos.index') }}">Productos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('ventas.miscompras') }}">Mis compras</a></li>
                         @endif
                     @endauth
 
