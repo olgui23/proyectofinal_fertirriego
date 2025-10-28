@@ -735,6 +735,13 @@ footer {
 
 /* Botones con efecto hover */
 /* Botón verde reutilizable para todo el sistema */
+.practice-card:hover,
+.eco-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(100, 165, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+}
+
 .btn-green {
     background-color: #64A500 !important;
     border: none !important;

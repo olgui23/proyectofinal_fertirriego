@@ -114,7 +114,7 @@
                         @elseif(Auth::user()->rol === 'comprador')
                         <!-- Menú para Comprador -->
                             <li class="nav-item"><a class="nav-link" href="{{ route('buyer.dashboard') }}">Inicio</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('asistente') }}">Asistente</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('asistente') }}">Cómo Cultivamos</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('productos.index') }}">Productos</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('ventas.miscompras') }}">Mis compras</a></li>
                         @endif

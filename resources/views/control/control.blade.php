@@ -4,11 +4,12 @@
 
 @section('contenido')
 <section class="page-section clearfix py-5">
-    <div class="container">
-        <h2 class="text-center text-success mb-4">Panel de Control de Sensores</h2>
-
+    <div class="container py-5">
+        
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-4">
+                <h2 class="text-center text-success mb-4">Panel de Control de Sensores</h2>
+
 
                 {{-- Selección de equipo --}}
                 <div class="mb-3 text-center">
