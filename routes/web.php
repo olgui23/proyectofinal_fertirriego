@@ -32,6 +32,22 @@ Route::post('/reporte-equipos/{equipo}/accion', [ReporteEquipoController::class,
 
 //aqui es lo otro 
 Route::resource('equipos', EquipoController::class);
+//Rutas reportes administrador
+
+Route::middleware(['auth', 'rol:administrador'])->group(function () {
+    Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+    Route::get('/reportes/agricultores', [ReporteController::class, 'agricultores'])->name('reportes.agricultores');
+    Route::get('/reportes/equipos', [ReporteController::class, 'equipos'])->name('reportes.equipos');
+    Route::get('/reportes/ventas', [ReporteController::class, 'ventas'])->name('reportes.ventas');
+});
+
+// RUTAS PARA VISTA DE REPORTES DE RIEGO
+Route::get('/cultivo/reporte', [RiegoController::class, 'reporte'])->name('cultivo.reporte');
+Route::get('/cultivo/reporte/pdf', [RiegoController::class, 'reportePDF'])->name('cultivo.reporte.pdf');
+
+// RUTAS PARA VISTA DE REPORTES DE RIEGO (REPORTE2)
+Route::get('/cultivo/reporte2', [RiegoController::class, 'reporte2'])->name('cultivo.reporte2');
+Route::get('/cultivo/reporte2/pdf', [RiegoController::class, 'reportePDF2'])->name('cultivo.reporte2.pdf');
 
 // CRUD de agricultores solo para admin
 Route::prefix('administrador')->middleware('auth')->group(function () {

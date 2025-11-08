@@ -5,11 +5,10 @@
 @section('contenido')
 <section class="page-section clearfix py-5">
     <div class="container py-5">
-        
+        	
         <div class="card shadow-lg border-0 rounded-4">
             <div class="card-body p-4">
                 <h2 class="text-center text-success mb-4">Panel de Control de Sensores</h2>
-
 
                 {{-- Selección de equipo --}}
                 <div class="mb-3 text-center">
@@ -40,6 +39,24 @@
                         <p class="text-danger">No hay equipos disponibles para controlar.</p>
                     @endif
                 </div>
+                {{-- Botón para generar reporte PDF --}}
+<a href="{{ route('cultivo.reporte2', [
+        'fecha_inicio' => $fechaInicio ?? now()->format('Y-m-d'), 
+        'fecha_fin' => $fechaFin ?? now()->format('Y-m-d')
+    ]) }}" 
+   target="_blank" class="btn btn-primary">
+    📄 Generar Reporte PDF
+</a>
+
+    <div class="text-end mb-3">
+        <a href="{{ route('cultivo.reporte') }}"  class="btn btn-impacto">
+             Reporte
+        </a>
+    </div> 
+
+
+
+
 
                 {{-- Estado actual --}}
                 <div class="text-center mb-4">

@@ -65,9 +65,10 @@
                     <label class="form-check-label" for="remember">Recordar sesión</label>
                 </div>
 
-                <button type="submit" class="btn btn-custom w-100">
-                    <i class="fas fa-sign-in-alt me-2"></i> Ingresar
-                </button>
+                <button type="submit" class="btn w-100" style="background-color: #64A500; border-color: #64A500; color: #fff;">
+    <i class="fas fa-sign-in-alt me-2"></i> Ingresar
+</button>
+
             </form>
 
             <div class="text-center mt-3">

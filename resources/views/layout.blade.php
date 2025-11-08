@@ -70,9 +70,9 @@
                         <!-- Menú para Administrador -->
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('administrador.index') }}">Registrar</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Cultivos</a></li>
+                          <!--  <li class="nav-item"><a class="nav-link" href="#">Cultivos</a></li> -->
                             <li class="nav-item"><a class="nav-link" href="{{ route('equipos.index') }}">Equipos</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Reportes</a></li>
+                           <!-- <li class="nav-item"><a class="nav-link" href="{{ route('reportes') }}">Reportes</a></li> -->
                         @elseif(Auth::user()->rol === 'agricultor')
                         <!-- Menú para Agricultor -->
                             <li class="nav-item"><a class="nav-link" href="{{ route('farm.dashboard') }}">Inicio</a></li>

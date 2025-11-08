@@ -38,22 +38,46 @@ class ReporteEquipoController extends Controller
 
     // Ejecutar acción desde la vista (panel web)
     public function accion(Request $request, $equipo_id)
-    {
-        $request->validate([
-            'tipo_accion' => 'required|string'
-        ]);
+{
+    $request->validate([
+        'tipo_accion' => 'required|string'
+    ]);
 
-        $tipo = $request->input('tipo_accion');
+    $tipo = $request->input('tipo_accion');
 
-        $reporte = ReporteEquipo::create([
-            'equipo_id' => $equipo_id,
-            'tipo_accion' => $tipo,
-            'valor' => null,
-            'estado' => 1
-        ]);
-
-        return response()->json(['success' => true, 'reporte' => $reporte]);
+    // Determinar el estado: 1 = encendido, 0 = apagado
+    $estado = 1;
+    if (str_contains($tipo, 'parar')) {
+        $estado = 0;
     }
+
+    $reporte = ReporteEquipo::create([
+        'equipo_id' => $equipo_id,
+        'tipo_accion' => $tipo,
+        'valor' => null,
+        'estado' => $estado
+    ]);
+
+    return response()->json(['success' => true, 'reporte' => $reporte]);
+}
+
+   // public function accion(Request $request, $equipo_id)
+    //{
+      //  $request->validate([
+      //      'tipo_accion' => 'required|string'
+      //  ]);
+
+      //  $tipo = $request->input('tipo_accion');
+
+      //  $reporte = ReporteEquipo::create([
+       //     'equipo_id' => $equipo_id,
+       //     'tipo_accion' => $tipo,
+        //    'valor' => null,
+        //    'estado' => 1
+       // ]);
+
+       // return response()->json(['success' => true, 'reporte' => $reporte]);
+   // }
 
     // NUEVO: Registrar datos desde Arduino (MAC + humedad)
 public function registroDesdeArduino(Request $request)
@@ -64,12 +88,10 @@ public function registroDesdeArduino(Request $request)
     ]);
 
     $equipo = Equipo::where('mac', $request->mac)->first();
-
     if (!$equipo) {
         return response()->json(['error' => 'Equipo no registrado'], 404);
     }
 
-    // Guardar reporte de lectura de sensor
     $reporte = ReporteEquipo::create([
         'equipo_id' => $equipo->id,
         'tipo_accion' => 'lectura_sensor',
@@ -77,7 +99,6 @@ public function registroDesdeArduino(Request $request)
         'estado' => 1,
     ]);
 
-    // Revisar si hay acciones activas para este equipo (últimas 1 o 2)
     $ultimoAccion = ReporteEquipo::where('equipo_id', $equipo->id)
         ->whereIn('tipo_accion', ['iniciar_riego','parar_riego','iniciar_fertilizante','parar_fertilizante','pulso_fertilizante'])
         ->latest()
@@ -91,16 +112,27 @@ public function registroDesdeArduino(Request $request)
         'pulso_fertilizante' => false,
     ];
 
+    $humedad = $request->valor;
+    $UMBRAL_RIEGO = 1500;
+
+    // Riego automático
+    if ($humedad < $UMBRAL_RIEGO) {
+        $respuesta['riego'] = true;
+    } elseif ($ultimoAccion && strpos($ultimoAccion->tipo_accion,'riego') !== false) {
+        $respuesta['riego'] = $ultimoAccion->estado==1;
+    }
+
+    // Fertilizante solo por vista
     if($ultimoAccion){
         $tipo = $ultimoAccion->tipo_accion;
         $estado = $ultimoAccion->estado;
 
-        $respuesta['riego'] = str_contains($tipo,'riego') && $estado==1;
-        $respuesta['fertilizante'] = str_contains($tipo,'fertilizante') && $estado==1;
+        $respuesta['fertilizante'] = strpos($tipo,'fertilizante') !== false && $estado==1;
         $respuesta['pulso_fertilizante'] = $tipo=='pulso_fertilizante' && $estado==1;
     }
 
     return response()->json($respuesta);
 }
+
 
 }

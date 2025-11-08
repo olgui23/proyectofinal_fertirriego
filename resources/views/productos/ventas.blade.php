@@ -39,7 +39,7 @@
     {{-- BOTÓN PARA GENERAR REPORTE PDF --}}
     <div class="text-end mb-3">
         <a href="{{ route('ventas.reporte', request()->query()) }}" target="_blank" class="btn btn-impacto">
-            📊 Generar Reporte PDF
+             Generar Reporte PDF
         </a>
     </div>
 
