@@ -8,7 +8,7 @@
     <div class="main-content-container p-4 shadow-sm rounded-4">
         <!-- Encabezado -->
         <div class="text-center mb-5">
-            <h1 class="plagas-title">🛍️ Mis Compras</h1>
+            <h1 class="plagas-title"> Mis Compras</h1>
             <p class="calendar-subtitle">Aquí puedes ver el estado y detalles de tus compras realizadas.</p>
         </div>
 

@@ -75,12 +75,23 @@ class AdminController extends Controller
         $agricultor = User::findOrFail($id);
 
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'username' => 'required|string|unique:users,username,' . $id,
-            'password' => 'nullable|string|min:6|confirmed',
-        ]);
+    'nombre' => 'required|string|max:255',
+    'apellidos' => 'required|string|max:255',
+    'email' => 'required|email|unique:users,email,' . $id,
+    'username' => 'required|string|unique:users,username,' . $id,
+    'password' => 'nullable|string|min:8|confirmed',
+], [
+    'nombre.required' => 'El nombre es obligatorio.',
+    'apellidos.required' => 'Los apellidos son obligatorios.',
+    'email.required' => 'El correo es obligatorio.',
+    'email.email' => 'El formato del correo no es válido.',
+    'email.unique' => 'Este correo ya está registrado.',
+    'username.required' => 'El nombre de usuario es obligatorio.',
+    'username.unique' => 'Este nombre de usuario ya está registrado.',
+    'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+    'password.confirmed' => 'La confirmación de contraseña no coincide.',
+]);
+
 
         $agricultor->nombre = $request->nombre;
         $agricultor->apellidos = $request->apellidos;

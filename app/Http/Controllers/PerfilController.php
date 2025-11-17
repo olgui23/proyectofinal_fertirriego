@@ -33,6 +33,7 @@ class PerfilController extends Controller
     {
         $user = Auth::user();
 
+        // ✅ VALIDACIÓN CON MENSAJES PERSONALIZADOS EN ESPAÑOL
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
@@ -42,6 +43,20 @@ class PerfilController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'foto_perfil' => 'nullable|image|mimes:jpeg,png|max:2048',
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellidos.required' => 'Los apellidos son obligatorios.',
+            'fecha_nacimiento.before' => 'Debes ser mayor de 18 años.',
+            'username.required' => 'El nombre de usuario es obligatorio.',
+            'username.unique' => 'Este nombre de usuario ya está registrado.',
+            'email.required' => 'El email es obligatorio.',
+            'email.email' => 'El formato del email no es válido.',
+            'email.unique' => 'Este email ya está registrado.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'La confirmación de contraseña no coincide.',
+            'foto_perfil.image' => 'El archivo debe ser una imagen válida.',
+            'foto_perfil.mimes' => 'La foto debe ser un archivo JPEG o PNG.',
+            'foto_perfil.max' => 'La foto no puede superar los 2 MB.',
         ]);
 
         // Actualizar campos

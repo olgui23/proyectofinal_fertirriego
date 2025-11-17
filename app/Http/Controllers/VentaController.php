@@ -193,12 +193,15 @@ public function reporte(Request $request)
 {
     $query = Venta::query()->with(['user', 'detalles.producto']);
 
-    if ($request->filled('fecha_inicio')) {
-        $query->whereDate('fecha_venta', '>=', $request->fecha_inicio);
+    $fecha_inicio = $request->fecha_inicio;
+    $fecha_fin = $request->fecha_fin;
+
+    if ($fecha_inicio) {
+        $query->whereDate('fecha_venta', '>=', $fecha_inicio);
     }
 
-    if ($request->filled('fecha_fin')) {
-        $query->whereDate('fecha_venta', '<=', $request->fecha_fin);
+    if ($fecha_fin) {
+        $query->whereDate('fecha_venta', '<=', $fecha_fin);
     }
 
     if ($request->filled('estado')) {
@@ -207,9 +210,17 @@ public function reporte(Request $request)
 
     $ventas = $query->get();
 
-    $pdf = PDF::loadView('ventas.reporte', compact('ventas'));
+    // 🔥 AHORA SÍ ENVIAMOS LAS FECHAS AL PDF
+    $pdf = PDF::loadView('ventas.reporte', [
+        'ventas' => $ventas,
+        'fecha_inicio' => $fecha_inicio,
+        'fecha_fin' => $fecha_fin,
+        'estado' => $request->estado
+    ]);
+
     return $pdf->stream('reporte_ventas.pdf');
 }
+
 
 
 

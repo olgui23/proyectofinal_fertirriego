@@ -46,7 +46,7 @@
             <p><strong>Cliente:</strong> {{ $venta->user?->nombre_completo ?? 'No asignado' }}</p>
             <p><strong>Agricultor:</strong> {{ $venta->agricultor?->nombre_completo ?? 'No asignado' }}</p>
             <p><strong>Fecha de Venta:</strong> {{ $venta->fecha_venta->format('d/m/Y H:i') }}</p>
-            <p><strong>Total:</strong> ${{ number_format($venta->total, 2) }}</p>
+            <p><strong>Total:</strong> Bs. {{ number_format($venta->total, 2) }}</p>
             <p><strong>Estado de Venta:</strong> 
                 <span class="badge {{ $venta->estado_venta == 'aprobado' ? 'bg-success' : 'bg-warning' }}">
                     {{ ucfirst($venta->estado_venta) }}
@@ -73,8 +73,8 @@
                     <tr>
                         <td>{{ $detalle->producto?->nombre ?? 'Producto no encontrado' }}</td>
                         <td>{{ $detalle->cantidad }}</td>
-                        <td>${{ number_format($detalle->precio_unitario, 2) }}</td>
-                        <td>${{ number_format($detalle->cantidad * $detalle->precio_unitario, 2) }}</td>
+                        <td>Bs. {{ number_format($detalle->precio_unitario, 2) }}</td>
+                        <td>Bs. {{ number_format($detalle->cantidad * $detalle->precio_unitario, 2) }}</td>
                     </tr>
                 @endforeach
             </tbody>
