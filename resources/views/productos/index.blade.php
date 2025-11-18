@@ -62,12 +62,12 @@
 
 
    <!-- Productos -->
+<!-- Productos -->
 <div id="productsGrid" class="row g-4">
     @forelse($productos as $producto)
         <div class="col-md-4 product-card" data-category="{{ Str::slug($producto->categoria) }}">
             <div class="card h-100 shadow-sm position-relative">
                 <img src="{{ asset('storage/productos/' . basename($producto->image_url)) }}" alt="Producto">
-
 
                 {{-- Badge de disponibilidad --}}
                 @if($producto->disponible)
@@ -98,6 +98,15 @@
         </div>
     @endforelse
 </div>
+
+{{-- PAGINACIÓN --}}
+@if ($productos instanceof \Illuminate\Pagination\LengthAwarePaginator)
+    <div class="mt-4 d-flex justify-content-center">
+        {{ $productos->links('pagination::simple-bootstrap-5') }}
+
+    </div>
+@endif
+
 
 <div id="noResults" class="text-center mt-4 d-none">
     <i class="fas fa-search fa-2x text-muted"></i>

@@ -126,10 +126,24 @@ class VentaController extends Controller
     }
 
     public function index()
-    {
-        $ventas = Venta::with(['user', 'detalles.producto'])->latest()->get();
-        return view('productos.ventas', compact('ventas'));
+{
+    $user = Auth::user();
+
+    // Validar que sea agricultor
+    if ($user->rol !== 'agricultor') {
+        abort(403, 'Acceso denegado.');
     }
+
+    $ventas = Venta::whereHas('detalles.producto', function ($query) use ($user) {
+        $query->where('user_id', $user->id);   // 👈 productos del agricultor
+    })
+    ->with(['user', 'detalles.producto'])
+    ->latest()
+    ->get();
+
+    return view('productos.ventas', compact('ventas'));
+}
+
 
     public function aprobar($id)
 {
@@ -191,17 +205,27 @@ public function show($id)
 
 public function reporte(Request $request)
 {
-    $query = Venta::query()->with(['user', 'detalles.producto']);
+    $user = Auth::user();
 
-    $fecha_inicio = $request->fecha_inicio;
-    $fecha_fin = $request->fecha_fin;
-
-    if ($fecha_inicio) {
-        $query->whereDate('fecha_venta', '>=', $fecha_inicio);
+    // Solo permitir que agricultores vean su propio reporte
+    if ($user->rol !== 'agricultor') {
+        abort(403, 'Acceso denegado.');
     }
 
-    if ($fecha_fin) {
-        $query->whereDate('fecha_venta', '<=', $fecha_fin);
+    $query = Venta::query()->with(['user', 'detalles.producto']);
+
+    // 🔥 FILTRAR SOLO LAS VENTAS DE SUS PRODUCTOS
+    $query->whereHas('detalles.producto', function ($q) use ($user) {
+        $q->where('user_id', $user->id);
+    });
+
+    // FILTROS OPCIONALES
+    if ($request->fecha_inicio) {
+        $query->whereDate('fecha_venta', '>=', $request->fecha_inicio);
+    }
+
+    if ($request->fecha_fin) {
+        $query->whereDate('fecha_venta', '<=', $request->fecha_fin);
     }
 
     if ($request->filled('estado')) {
@@ -210,16 +234,17 @@ public function reporte(Request $request)
 
     $ventas = $query->get();
 
-    // 🔥 AHORA SÍ ENVIAMOS LAS FECHAS AL PDF
+    // ENVIAR AL PDF
     $pdf = PDF::loadView('ventas.reporte', [
         'ventas' => $ventas,
-        'fecha_inicio' => $fecha_inicio,
-        'fecha_fin' => $fecha_fin,
+        'fecha_inicio' => $request->fecha_inicio,
+        'fecha_fin' => $request->fecha_fin,
         'estado' => $request->estado
     ]);
 
     return $pdf->stream('reporte_ventas.pdf');
 }
+
 
 
 

@@ -3,104 +3,185 @@
 <head>
     <meta charset="UTF-8" />
     <title>Lista de Agricultores</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+    <style>
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 30px 40px;
-            color: #2f4f2f; /* verde oscuro */
-            font-size: 13px;
-            background-color: #f0fff0; /* verde muy claro */
-        }
-        header {
-            border-bottom: 3px solid #4caf50; /* verde vibrante */
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            text-align: center;
-        }
-        header h1 {
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 12px;
             margin: 0;
-            color: #4caf50;
-            font-weight: 700;
-            font-size: 24px;
+            padding: 0;
+            background: #f4fff4;
+            color: #333;
         }
+
+        /* BARRA SUPERIOR VERDE */
+        .top-bar {
+            width: 100%;
+            background: #64A500;
+            padding: 20px 0 10px 0;
+            text-align: center;
+            border-bottom: 4px solid #4A7F00;
+        }
+
+        /* LOGO CENTRADO */
+        .logo-container {
+            width: 100%;
+            text-align: center;
+            background: white;
+            padding: 15px 0;
+        }
+
+        .logo-container img {
+            width: 160px;
+        }
+
+        /* TÍTULO */
+        .title {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .title h1 {
+            font-size: 24px;
+            margin: 5px 0 0 0;
+            font-weight: bold;
+            color: #64A500;
+        }
+
+        .title h3 {
+            margin: 3px 0 0 0;
+            font-size: 14px;
+            color: #4A7F00;
+        }
+
+        /* CONTENEDOR */
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px 35px;
+            margin: 25px;
+            border: 1px solid #d8e8d8;
+        }
+
+        /* TABLA */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
-            box-shadow: 0 0 10px rgba(76,175,80,0.2);
-            background: white;
-            border-radius: 5px;
-            overflow: hidden;
+            margin-top: 20px;
         }
+
         thead {
-            background-color: #4caf50;
-            color: #fff;
-            font-weight: 600;
+            background-color: #64A500;
+            color: white;
         }
+
         th, td {
-            padding: 12px 15px;
-            border: 1px solid #c8e6c9;
+            padding: 10px;
+            border: 1px solid #dcecdc;
             text-align: left;
         }
+
         tbody tr:nth-child(even) {
-            background-color: #e8f5e9;
+            background-color: #f3fff3;
         }
+
         tfoot td {
-            font-weight: 700;
+            font-weight: bold;
             font-size: 14px;
-            padding-top: 10px;
-            border: none;
-            color: #2e7d32;
-        }
-        footer {
-            position: fixed;
-            bottom: 30px;
-            width: 100%;
-            font-size: 11px;
-            text-align: center;
-            color: #789262;
-            border-top: 1px solid #c8e6c9;
             padding-top: 8px;
+            text-align: right;
+            color: #64A500;
+            border: none;
         }
+
+        /* FOOTER FIJO PARA PAGINACIÓN */
+        @page {
+            margin: 40px 30px;
+        }
+
+        .footer-page {
+            position: fixed;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            height: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #6b876b;
+        }
+
+        .footer-page .page:before {
+            content: counter(page);
+        }
+
+        .footer-page .total-pages:before {
+            content: counter(pages);
+        }
+
     </style>
 </head>
+
 <body>
-    <header>
-        <h1>Listado de Agricultores Registrados</h1>
-    </header>
+    
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre Completo</th>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th>Género</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($agricultores as $agricultor)
-            <tr>
-                <td>{{ $agricultor->id }}</td>
-                <td>{{ $agricultor->nombre }} {{ $agricultor->apellidos }}</td>
-                <td>{{ $agricultor->username }}</td>
-                <td>{{ $agricultor->email }}</td>
-                <td>{{ ucfirst($agricultor->genero) }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="5">Total de Agricultores: {{ $agricultores->count() }}</td>
-            </tr>
-        </tfoot>
-    </table>
+    <!-- FOOTER FIJO PARA PAGINACIÓN -->
+    <div class="footer-page">
+        Página <span class="page"></span> de <span class="total-pages"></span>
+    </div>
 
-    <footer>
-        Generado por Sistema de Gestión - {{ date('d/m/Y') }}
-    </footer>
+    <!-- BARRA VERDE -->
+    <div class="top-bar"></div>
+
+    <!-- LOGO -->
+    <div class="logo-container">
+        <img src="{{ public_path('images/encabezadologo.png') }}" alt="Logo">
+    </div>
+
+    <!-- TÍTULO -->
+    <div class="title">
+        <h1>LISTADO DE AGRICULTORES</h1>
+        <h3>Total registrados: {{ $agricultores->count() }}</h3>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Género</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach($agricultores as $agricultor)
+                <tr>
+                    <td>{{ $agricultor->id }}</td>
+                    <td>{{ $agricultor->nombre }} {{ $agricultor->apellidos }}</td>
+                    <td>{{ $agricultor->username }}</td>
+                    <td>{{ $agricultor->email }}</td>
+                    <td>{{ ucfirst($agricultor->genero) }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="5">Total de Agricultores: {{ $agricultores->count() }}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="footer">
+            Sistema de Fertirrigación | {{ date('Y') }}
+        </div>
+
+    </div>
+
 </body>
 </html>

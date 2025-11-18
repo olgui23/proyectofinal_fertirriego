@@ -106,15 +106,23 @@
                             <td>
                                 @if($venta->estado_venta === 'pendiente')
                                     <div class="d-flex justify-content-center gap-2">
-    <form action="{{ route('ventas.aprobar', $venta->id) }}" method="POST">
-        @csrf
-        <button type="submit" class="btn btn-sm btn-success btn-accion">Aceptar</button>
-    </form>
 
-    <button type="button" class="btn btn-sm btn-danger btn-accion"
-        data-bs-toggle="modal" data-bs-target="#rechazoModal{{ $venta->id }}">
-        Rechazar
-    </button>
+    <div class="flex-fill">
+        <form action="{{ route('ventas.aprobar', $venta->id) }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-success w-100">Aceptar</button>
+        </form>
+    </div>
+
+    <div class="flex-fill">
+        <button type="button"
+                class="btn btn-sm btn-danger w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#rechazoModal{{ $venta->id }}">
+            Rechazar
+        </button>
+    </div>
+
 </div>
 
 

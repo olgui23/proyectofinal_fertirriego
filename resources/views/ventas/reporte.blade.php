@@ -139,6 +139,14 @@
     <div class="title">
         <h1>REPORTE DE VENTAS</h1>
     </div>
+    <!-- USUARIO QUE GENERA EL REPORTE Y FECHA -->
+<div style="text-align: center; margin-top: 5px; font-size: 13px; color: #3B5E1A;">
+    <p>
+        Generado por: <strong>{{ auth()->user()->nombre_completo }}</strong><br>
+        Fecha de impresión: <strong>{{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</strong>
+    </p>
+</div>
+
         <!-- DESCRIPCIÓN DEL RANGO DE FECHAS -->
 <div style="text-align: center; margin-top: 10px; margin-bottom: 20px; font-size: 14px; color: #3B5E1A;">
     <p>

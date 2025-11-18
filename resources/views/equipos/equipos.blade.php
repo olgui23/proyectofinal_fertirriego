@@ -13,15 +13,14 @@
 
         <!-- Botón registrar -->
         <div class="text-end mb-3">
-    <a href="{{ route('equipos.create') }}" class="btn btn-success">
-        <i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Equipo
-    </a>
+            <a href="{{ route('equipos.create') }}" class="btn btn-success">
+                <i class="fas fa-plus-circle me-2"></i>Registrar Nuevo Equipo
+            </a>
 
-    <a href="{{ route('equipos.pdf-view') }}" class="btn btn-outline-success ms-2">
-        <i class="fas fa-file-pdf me-2"></i>Ver PDF Equipos
-    </a>
-</div>
-
+            <a href="{{ route('equipos.pdf-view') }}" class="btn btn-outline-success ms-2">
+                <i class="fas fa-file-pdf me-2"></i>Ver PDF Equipos
+            </a>
+        </div>
 
         <!-- Alertas -->
         @if(session('success'))
@@ -78,24 +77,33 @@
     </div>
 </div>
 
-<!-- Modal de detalles -->
+<!-- Modal de detalles con mapa a la izquierda -->
 <div class="modal fade" id="equipoModal" tabindex="-1" aria-labelledby="equipoModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content border-success">
+      <div class="modal-header" style="background-color: #64A500; color: #fff;">
         <h5 class="modal-title" id="equipoModalLabel">Detalles del Equipo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <p><strong>ID:</strong> <span id="equipo-id"></span></p>
-        <p><strong>Usuario:</strong> <span id="equipo-usuario"></span></p>
-        <p><strong>MAC:</strong> <span id="equipo-mac"></span></p>
-        <p><strong>Descripción:</strong> <span id="equipo-descripcion"></span></p>
-        <p><strong>Ubicación:</strong> <span id="equipo-ubicacion"></span></p>
-        <p><strong>Latitud:</strong> <span id="equipo-lat"></span></p>
-        <p><strong>Longitud:</strong> <span id="equipo-lng"></span></p>
-        <p><strong>Fecha Instalación:</strong> <span id="equipo-fecha"></span></p>
-        <p><strong>Activo:</strong> <span id="equipo-activo"></span></p>
+        <div class="row">
+            <!-- Columna izquierda con mapa -->
+            <div class="col-md-6 mb-3">
+                <div id="map" style="width: 100%; height: 350px; border: 1px solid #64A500; border-radius: 5px;"></div>
+            </div>
+            <!-- Columna derecha con datos -->
+            <div class="col-md-6 mb-3">
+                <p><strong>ID:</strong> <span id="equipo-id"></span></p>
+                <p><strong>Usuario:</strong> <span id="equipo-usuario"></span></p>
+                <p><strong>MAC:</strong> <span id="equipo-mac"></span></p>
+                <p><strong>Descripción:</strong> <span id="equipo-descripcion"></span></p>
+                <p><strong>Ubicación:</strong> <span id="equipo-ubicacion"></span></p>
+                <p><strong>Latitud:</strong> <span id="equipo-lat"></span></p>
+                <p><strong>Longitud:</strong> <span id="equipo-lng"></span></p>
+                <p><strong>Activo:</strong> <span id="equipo-activo"></span></p>
+                <p><strong>Fecha Instalación:</strong> <span id="equipo-fecha"></span></p>
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -107,29 +115,55 @@
 document.addEventListener('DOMContentLoaded', function () {
     const botones = document.querySelectorAll('.btn-ver');
     const modal = new bootstrap.Modal(document.getElementById('equipoModal'));
+    let map, marker;
+
+    function initMap(lat, lng) {
+        if(!lat || !lng) return;
+        const position = { lat: parseFloat(lat), lng: parseFloat(lng) };
+        if (!map) {
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: position,
+            });
+            marker = new google.maps.Marker({
+                position,
+                map: map,
+            });
+        } else {
+            map.setCenter(position);
+            marker.setPosition(position);
+        }
+    }
 
     botones.forEach(boton => {
         boton.addEventListener('click', function () {
             const id = this.dataset.id;
 
-            fetch(`{{ url('equipos') }}/${id}`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('equipo-id').textContent = data.id;
-                    document.getElementById('equipo-usuario').textContent = data.user ? data.user.nombre_completo : 'N/A';
-                    document.getElementById('equipo-mac').textContent = data.mac;
-                    document.getElementById('equipo-descripcion').textContent = data.descripcion ?? 'N/A';
-                    document.getElementById('equipo-ubicacion').textContent = data.ubicacion ?? 'N/A';
-                    document.getElementById('equipo-lat').textContent = data.lat ?? 'N/A';
-                    document.getElementById('equipo-lng').textContent = data.lng ?? 'N/A';
-                    document.getElementById('equipo-fecha').textContent = data.fecha_instalacion ?? 'N/A';
-                    document.getElementById('equipo-activo').textContent = data.activo ? 'Sí' : 'No';
+            fetch(`{{ url('equipos') }}/${id}`, { headers: { 'Accept': 'application/json' } })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('equipo-id').textContent = data.id;
+                document.getElementById('equipo-usuario').textContent = data.user ? data.user.nombre_completo : 'N/A';
+                document.getElementById('equipo-mac').textContent = data.mac;
+                document.getElementById('equipo-descripcion').textContent = data.descripcion ?? 'N/A';
+                document.getElementById('equipo-ubicacion').textContent = data.ubicacion ?? 'N/A';
+                document.getElementById('equipo-lat').textContent = data.lat ?? 'N/A';
+                document.getElementById('equipo-lng').textContent = data.lng ?? 'N/A';
+                document.getElementById('equipo-fecha').textContent = data.fecha_instalacion ?? 'N/A';
+                document.getElementById('equipo-activo').textContent = data.activo ? 'Sí' : 'No';
 
-                    modal.show();
-                })
-                .catch(err => console.error(err));
+                modal.show();
+
+                if(data.lat && data.lng) {
+                    initMap(data.lat, data.lng);
+                }
+            })
+            .catch(err => console.error(err));
         });
     });
 });
 </script>
+
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY"></script>
 @endpush
