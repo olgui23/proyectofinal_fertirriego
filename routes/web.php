@@ -183,6 +183,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/productos', [ProductoController::class, 'guardar'])->name('productos.guardar');
         Route::put('/productos/{id}', [ProductoController::class, 'actualizar'])->name('productos.update');
         Route::delete('/productos/{id}', [ProductoController::class, 'eliminar'])->name('productos.eliminar');
+    //RUTA PARA CATALOGO EN PDF
+    Route::get('/productos/catalogo/pdf', [ProductoController::class, 'catalogoPDF'])
+     ->name('productos.catalogo.pdf');
 
     // Rutas para VENTAS
     Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');

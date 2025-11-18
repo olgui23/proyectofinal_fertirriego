@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -188,6 +189,27 @@ public function toggleDisponible($id)
     $producto->save();
 
     return back()->with('success', 'Disponibilidad actualizada.');
+}
+
+public function catalogoPDF()
+{
+    $productos = Producto::with('user')
+        ->where('disponible', true)
+        ->where('stock', '>', 0)
+        ->get();
+
+    $fecha_impresion = now()->format('d/m/Y H:i');
+
+    // Calculamos el stock total
+    $stock_total = $productos->sum('stock');
+
+    $pdf = PDF::loadView('productos.catalogo_pdf', [
+        'productos' => $productos,
+        'fecha_impresion' => $fecha_impresion,
+        'stock_total' => $stock_total // ✅ pasamos la variable
+    ])->setPaper('a4', 'portrait');
+
+    return $pdf->stream('catalogo_productos.pdf');
 }
 
 

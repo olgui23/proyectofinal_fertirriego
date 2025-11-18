@@ -20,6 +20,12 @@
 @endsection
 
 @section('contenido')
+<a href="{{ route('productos.catalogo.pdf') }}" 
+   class="btn btn-success mb-4" 
+   target="_blank">
+   📘 Descargar catálogo PDF
+</a>
+
 
 <!-- Botón carrito flotante con contador solo para compradores -->
 @if(auth()->check() && auth()->user()->rol === 'comprador')
